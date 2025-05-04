@@ -8,10 +8,14 @@ public class BenutzerFormular {
     private String rolle = "";
     private String passwort = "";
 
+    public BenutzerFormular(){
+
+    }
+
     public int getVegetarizitaet() {
         return vegetarizitaet;
     }
-    public void setVegetarizität(int vegetarizitaet) {
+    public void setVegetarizitaet(int vegetarizitaet) {
         this.vegetarizitaet = vegetarizitaet;
     }
     public String getName() {
@@ -44,7 +48,7 @@ public class BenutzerFormular {
     public void setUsername(String username) {
         this.username = username;
     }
-    
+
     @Override
     public String toString() {
         return "BenutzerFormular [vegetarizitaet=" + vegetarizitaet + ", name=" + name + ", email=" + email + ", rolle="
