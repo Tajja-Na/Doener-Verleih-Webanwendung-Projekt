@@ -1,3 +1,5 @@
+package de.hsrm.mi.web.projekt.benutzer.ui;
+
 public class BenutzerFormular {
     private int vegetarizitaet = 0;
     private String name = "";

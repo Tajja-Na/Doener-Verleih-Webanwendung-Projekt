@@ -3,38 +3,38 @@
         <title>Der Digitale Dönerverleih</title>
     </head>
     <body>
-        <form action="benutzer/${benutzer}" method="post" >
-            <h1>Benutzer <span th:text="${benutzer}">benutzer</span> bearbeiten... </h1>
+        <form action="benutzer/${username}" method="post" th:object="${formular}">
+            <h1>Benutzer <span th:text="${username}">benutzer</span> bearbeiten... </h1>
             
             <br><br>
 
             <label for="Name">Name</label>
-            <input type="text" name="Name" id="name">
+            <input type="text" th:field="*{name}" name="Name" id="name">
 
             <br><br>
             
             <label for="Digitalpostanschrift">Digitalpostanschrift</label>
-            <input type="email" name="Digitalpostanschrift" id="email">
+            <input type="email" th:field="*{email}" name="Digitalpostanschrift" id="email">
 
             <br><br>
 
             <div id="radio">
                 <label for="Vegetarizität">Vegetarizität</label>
 
-                <input type="radio" name="Vegetarizität" id="unvegetarisch" value="0">
+                <input type="radio" th:field="*{vegetarizitaet}" name="Vegetarizität" id="unvegetarisch" value="0">
                 <label for="">unvegetarisch</label>
 
-                <input type="radio" name="Vegetarizität" id="vegetarisch" value="1">
+                <input type="radio" th:field="*{vegetarizitaet}" name="Vegetarizität" id="vegetarisch" value="1">
                 <label for="vegetarisch">vegetarisch</label>
 
-                <input type="radio" name="Vegetarizität" id="vegan" value="2">
+                <input type="radio" th:field="*{vegetarizitaet}" name="Vegetarizität" id="vegan" value="2">
                 <label for="vegan">vegan</label>
             </div>
 
             <br><br>
 
             <label for="Rolle">Rolle</label>
-            <select name="Rolle" id="rolle">
+            <select name="Rolle" th:field="*{rolle}" id="rolle">
                 <option value="ADMIN">ADMIN</option>
                 <option value="KUNDE">KUNDE</option>
                 <option value="GESPERRT">GESPERRT</option>
@@ -43,7 +43,7 @@
             <br><br>
 
             <label for="Losung">Losung</label>
-            <input type="password" name="Losung">
+            <input type="password" th:field="*{passwort}" name="Losung">
 
             <br><br>
 
