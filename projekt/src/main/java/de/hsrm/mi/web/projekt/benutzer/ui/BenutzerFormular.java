@@ -2,6 +2,7 @@ package de.hsrm.mi.web.projekt.benutzer.ui;
 
 public class BenutzerFormular {
     private int vegetarizitaet = 0;
+    private String username = "";
     private String name = "";
     private String email = "";
     private String rolle = "";
@@ -36,6 +37,18 @@ public class BenutzerFormular {
     }
     public void setPasswort(String passwort) {
         this.passwort = passwort;
+    }
+    public String getUsername() {
+        return username;
+    }
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    
+    @Override
+    public String toString() {
+        return "BenutzerFormular [vegetarizitaet=" + vegetarizitaet + ", name=" + name + ", email=" + email + ", rolle="
+                + rolle + ", passwort=" + passwort + "]";
     }
 
 }

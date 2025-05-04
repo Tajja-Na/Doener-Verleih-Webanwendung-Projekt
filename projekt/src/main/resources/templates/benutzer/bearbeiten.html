@@ -3,7 +3,7 @@
         <title>Der Digitale Dönerverleih</title>
     </head>
     <body>
-        <form action="benutzer/${username}" method="post" th:object="${formular}">
+        <form th:action="@{/benutzer/{username}(username=${formular.username})}" method="post" th:object="${formular}">
             <h1>Benutzer <span th:text="${username}">benutzer</span> bearbeiten... </h1>
             
             <br><br>
