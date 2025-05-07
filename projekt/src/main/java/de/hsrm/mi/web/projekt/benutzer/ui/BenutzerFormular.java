@@ -1,16 +1,18 @@
 package de.hsrm.mi.web.projekt.benutzer.ui;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 public class BenutzerFormular {
     private int vegetarizitaet = 0;
     private String username = "";
+
+    @NotNull 
+    @Size (min=3, max=60)
     private String name = "";
     private String email = "";
     private String rolle = "";
     private String passwort = "";
-
-    public BenutzerFormular(){
-
-    }
 
     public int getVegetarizitaet() {
         return vegetarizitaet;
