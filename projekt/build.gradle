@@ -27,6 +27,15 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+task uebersetzungenToProperties(type: Exec) {
+    description = "Mit Python-Skript Uebersetzungen generieren"
+    commandLine 'python', 'uebersetzungen-to-properties.py'
+}
+
+tasks.named('processResources') {
+    finalizedBy("uebersetzungenToProperties")
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }

@@ -1,0 +1,27 @@
+propertyname;en;de;nl
+kopf.titel;Rent-a-Kebab UdE;Dönerverleih UdE;Kebab Verhuur UdE
+kopf.benutzer;Users;Benutzer;Gebruikers
+benutzer.name;Name;Name;Naam
+benutzer.email;E-Mail;Digitalpostanschrift;E-mailadres
+benutzer.vegetarizitaet;Vegetaricity;Vegetarizität;Graad van vegetarisme
+benutzer.vegetarizitaet.unvegetarisch;non-vegetarian;unvegetarisch;onvegetarisch
+benutzer.vegetarizitaet.vegetarisch;vegetarian;vegetarisch;vegetarisch
+benutzer.vegetarizitaet.vegan;vegan;vegan;vegan
+benutzer.rolle;Role;Rolle;Rol
+benutzer.rolle.admin;admin;Admin;admin
+benutzer.rolle.kunde;customer;Kunde;klant
+benutzer.rolle.gesperrt;blocked;gesperrt;geblokkeerd
+benutzer.losung;Password;Losung;Wachtwoord
+benutzer.losungwh;Repeat password;Losung (Wiederh.);Wachtwoord (herhaling)
+benutzer.fehler.geeignetelosung;password suboptimal;Losung ist nicht entsprechend;dit wachtwoord is echt ongeschikt
+benutzer.fehler.losungwiederholung;passwords do not match;Losungen weichen ab;wachtwoorden verschillen onderling
+benutzer.bearbeiten.titel;Edit user {0};Benutzer {0} bearbeiten;Gebruikersprofiel {0} bewerken
+benutzer.hallo;Hi;Moin;Hoi
+benutzer.liste.titel;User List;Benutzerliste;Lijst van alle gebruikers
+benutzer.liste.spalte.bearbeiten;edit;bearbeiten;bewerken
+benutzer.liste.spalte.loeschen;delete;löschen;wissen
+benutzer.liste.spalte.loginname;Login-Name;Login-Name;Gebruikers naam
+benutzer.liste.spalte.name;Name;Name;Naam
+benutzer.liste.spalte.email;E-Mail;Digitalpostanschrift;E-mailadres
+benutzer.liste.spalte.rolle;Role;Rolle;Rol
+benutzer.fehler.geeignetelosung;The password must not contain 42 or 'zweiundvierzig';Das Passwort darf nicht "42" oder "zweiundvierzig" enthalten;Het wachtwoord mag niet "42" of "zweiundvierzig" bevatten
