@@ -3,13 +3,16 @@ package de.hsrm.mi.web.projekt.entities.benutzer;
 import de.hsrm.mi.web.projekt.benutzer.ui.BenutzerFormular;
 import de.hsrm.mi.web.projekt.validators.GeeigneteLosung;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
 public class Benutzer {
+    @Id
     private String loginName;
+
     private String rolle = "";
     private int vegetarizitaet = 0;
 
@@ -55,6 +58,13 @@ public class Benutzer {
     public void setLosung(String losung) {
         this.losung = losung;
     }
+        public String getLoginName() {
+        return loginName;
+    }
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;

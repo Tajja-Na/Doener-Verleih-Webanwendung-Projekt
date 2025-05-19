@@ -1,0 +1,155 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    <style>
+         body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+        }
+
+        .main {
+            margin: auto;
+            padding: 30px;
+            background-color: #ffffff;
+            width: 80%;
+            max-width: 700px;
+            border-radius: 15px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #6ea96e;
+            color: white;
+            padding: 20px 40px;
+            font-size: 18px;
+        }
+
+        header a, h1{
+            font-size: 20px;
+            color: white;
+            padding: 8px 12px;
+            text-decoration: none;
+        }
+
+        header a:visited {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer {
+            background: #6ea96e;
+            color: white;
+            padding: 15px 40px;
+            font-size: 16px;
+            text-align: center;
+            margin-top: 40px;
+            bottom:0;
+            position:fixed;
+            width:100%;
+        }
+
+        .button {
+            padding: 8px 16px;
+            background-color: #3c6d3c;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            line-height: normal;
+        }
+
+        .button-delete {
+            padding: 8px 16px;
+            background-color: #721c24;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            line-height: normal;
+        }
+
+        .error-info{
+            background-color: #f8d7da; 
+            color: #721c24; 
+            padding: 12px; 
+            margin-bottom: 20px; 
+            border: 1px solid #f5c6cb; 
+            border-radius: 4px;"
+        }
+
+        .languages{
+            margin-right: 0;
+            margin-left: auto;
+        }
+
+        h2 {
+            font-size: 20px;
+            color:rgb(57, 92, 57);
+            padding: 8px 12px;
+        }
+
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th {
+            background-color: #6ea96e;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid;
+        }
+
+    </style>
+    <head>
+        <title>Dönerverleih UdE</title>
+    </head>
+    <body>
+        <th:block th:replace="~{fragments/kopffuss :: kopf('Dönerverleih UdE', 'Benutzer')}" />
+
+        <div class="main">
+            <h2>Benutzerliste</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th th:text="#{benutzer.liste.spalte.loginName}">Login-name</th>
+                        <th th:text="#{benutzer.liste.spalte.name}">Name</th>
+                        <th th:text="#{benutzer.liste.spalte.email}">Digitalpostanschrift</th>
+                        <th th:text="#{benutzer.liste.spalte.rolle}">Rolle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="benutzer : ${benutzer}">
+                        <td th:text="${benutzer.loginName}">loginName</td>
+                        <td th:text="${benutzer.name}">name</td>
+                        <td th:text="${benutzer.email}">email</td>
+                        <td th:text="${benutzer.rolle}">rolle</td>
+                        <td>
+                            <a th:href="@{'/benutzer/' + ${benutzer.loginName}}" class="button" th:text="#{benutzer.liste.spalte.bearbeiten}"> bearbeiten </a>
+                            <a th:href="@{'/benutzer/' + ${benutzer.loginName} + '/delete'}" class="button-delete" th:text="#{benutzer.liste.spalte.loeschen}"> löschen </a>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <th:block th:replace="~{fragments/kopffuss :: fuss}" />
+    </body>
+</html>

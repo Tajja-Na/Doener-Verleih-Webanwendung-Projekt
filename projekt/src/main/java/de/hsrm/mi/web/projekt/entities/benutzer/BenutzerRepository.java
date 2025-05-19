@@ -2,6 +2,7 @@ package de.hsrm.mi.web.projekt.entities.benutzer;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BenutzerRepository extends JpaRepository{  //@Interface??
-    
+//@Interface wäre hier falsch, das würde eine Annotation definieren, so wie in GeeigneteLosung 
+public interface BenutzerRepository extends JpaRepository<Benutzer, String>{  
+    //String, weil die Primärschlüssel der loginname und somit ein String ist
 }

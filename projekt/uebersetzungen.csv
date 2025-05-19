@@ -20,8 +20,34 @@ benutzer.hallo;Hi;Moin;Hoi
 benutzer.liste.titel;User List;Benutzerliste;Lijst van alle gebruikers
 benutzer.liste.spalte.bearbeiten;edit;bearbeiten;bewerken
 benutzer.liste.spalte.loeschen;delete;löschen;wissen
-benutzer.liste.spalte.loginname;Login-Name;Login-Name;Gebruikers naam
+benutzer.liste.spalte.loginName;Login-Name;Login-Name;Gebruikers naam
 benutzer.liste.spalte.name;Name;Name;Naam
 benutzer.liste.spalte.email;E-Mail;Digitalpostanschrift;E-mailadres
 benutzer.liste.spalte.rolle;Role;Rolle;Rol
-benutzer.fehler.geeignetelosung;The password must not contain 42 or 'zweiundvierzig';Das Passwort darf nicht "42" oder "zweiundvierzig" enthalten;Het wachtwoord mag niet "42" of "zweiundvierzig" bevatten
+
+kopf.doener;Kebabs;Döner;Kebabs
+doener.liste.titel;Kebab List;Dönerliste;Lijst van alle kebabs
+doener.liste.spalte.id;ID;ID;ID
+doener.liste.spalte.bezeichnung;Name;Bezeichnung;Aanduiding
+doener.liste.spalte.preis;Price;Preis;Prijs
+doener.liste.spalte.vegetarizitaet;Vegetaricity;Vegetarizität;Graad van vegetarisme
+doener.liste.spalte.bestand;Stock Level;Bestand;Voorraad
+doener.liste.spalte.bearbeiten;edit;bearbeiten;bewerken
+doener.liste.spalte.loeschen;delete;löschen;wissen
+doener.liste.neudoener;New kebab;Neuer Döner;Nieuw kebab
+
+doener.bearbeiten.titel;Edit kebab {0};Döner {0} bearbeiten;Kebab {0} bewerken
+doener.bearbeiten.neu.titel;Create new kebab;Neuen Döner anlegen;Nieuwe kebab creëeren
+doener.bezeichnung;Designation;Bezeichnung;Aanduiding
+doener.preis;Price;Preis;Prijs
+doener.vegetarizitaet;Vegetaricity;Vegetarizität;Graad van vegetarisme
+doener.bestand;Stock Level;Bestand;Voorraad
+doener.vegetarizitaet.unvegetarisch;non-vegetarian;unvegetarisch;onvegetarisch
+doener.vegetarizitaet.vegetarisch;vegetarian;vegetarisch;vegetarisch
+doener.vegetarizitaet.vegan;vegan;vegan;vegan
+doener.zutaten;Ingredients;Zutaten;Ingrediënten
+zutat.fehler.ean;EAN must consist of 13 digits;EAN muss aus 13 Ziffern bestehen;Een EAN moet uit 13 cijfers bestaan
+
+doener.vegetarizitaet.0;non-vegetarian;unvegetarisch;onvegetarisch
+doener.vegetarizitaet.1;vegetarian;vegetarisch;vegetarisch
+doener.vegetarizitaet.2;vegan;vegan;vegan

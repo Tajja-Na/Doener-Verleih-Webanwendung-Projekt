@@ -2,10 +2,11 @@
     <head>
     </head>
     <body>
-        <header th:fragment="kopf">
-            
+        <header th:fragment="kopf(titel, benutzer)">
+            <h1 th:text="*{titel}">Dönerverleih UdE</h1>
+            <a th:href="@{/benutzer}" th:text="*{benutzer}"> Benutzer </a>
+
             <div class="languages">
-                <a href="http://localhost:8080/benutzer/Timmy"> Benutzer </a>
                 <a th:href="@{?sprache=de}"> DE </a>
                 <a th:href="@{?sprache=en}"> EN </a>
                 <a th:href="@{?sprache=nl}"> NL </a>

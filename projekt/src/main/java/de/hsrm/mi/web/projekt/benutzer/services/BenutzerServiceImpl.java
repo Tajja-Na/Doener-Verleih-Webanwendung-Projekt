@@ -1,0 +1,44 @@
+package de.hsrm.mi.web.projekt.benutzer.services;
+
+import java.util.Collection;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import de.hsrm.mi.web.projekt.entities.benutzer.Benutzer;
+import de.hsrm.mi.web.projekt.entities.benutzer.BenutzerRepository;
+
+@Service
+public class BenutzerServiceImpl implements BenutzerService{
+    private BenutzerRepository br;
+    private Logger logger = LoggerFactory.getLogger(BenutzerServiceImpl.class);
+
+    @Autowired
+    public BenutzerServiceImpl(BenutzerRepository br){
+        this.br = br;
+    }
+
+    @Override
+    public Benutzer saveBenutzer(Benutzer b) {
+        return br.save(b);
+    }
+
+    @Override
+    public Optional<Benutzer> findBenutzerById(String loginName) {
+        return br.findById(loginName);
+    }
+
+    @Override
+    public Collection<Benutzer> findAllBenutzer() {
+        return br.findAll(Sort.by("loginName").ascending());
+    }
+
+    @Override
+    public void deleteBenutzerById(String loginName) {
+        br.deleteById(loginName);
+    }
+}

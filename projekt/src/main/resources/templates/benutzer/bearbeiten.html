@@ -16,12 +16,6 @@
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
         }
         
-        h1 {
-            color: #3c6d3c;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
         label {
             font-weight: bold;
             display: block;
@@ -109,6 +103,18 @@
             font-size: 18px;
         }
 
+        header a, h1{
+            font-size: 20px;
+            color: white;
+            padding: 8px 12px;
+            text-decoration: none;
+        }
+
+        header a:visited {
+            color: white;
+            text-decoration: none;
+        }
+
         footer {
             background: #6ea96e;
             color: white;
@@ -121,6 +127,27 @@
             width:100%;
         }
 
+        .error-info{
+            background-color: #f8d7da; 
+            color: #721c24; 
+            padding: 12px; 
+            margin-bottom: 20px; 
+            border: 1px solid #f5c6cb; 
+            border-radius: 4px;"
+        }
+
+        .languages{
+            margin-right: 0;
+            margin-left: auto;
+        }
+
+        h2 {
+            font-size: 20px;
+            color:rgb(57, 92, 57);
+            padding: 8px 12px;
+            text-align: center;
+        }
+
     </style>
 
     <head>
@@ -128,10 +155,15 @@
     </head>
 
     <body>
-        <th:block th:replace="~{fragments/kopffuss :: kopf}" />
-        <form th:action="@{/benutzer/{username}(username=${formular.username}, sprache=${#locale})}" method="post" th:object="${formular}">
+        <th:block th:replace="~{fragments/kopffuss :: kopf('Dönerverleih UdE', 'Benutzer')}" />
+
+        <div th:if="${info}" class="error-info">
+            <strong>Fehler:</strong> <span th:text="${info}">Fehlermeldung</span>
+        </div>
+
+        <form th:action="@{/benutzer/{loginName}(loginName=${formular.loginName}, sprache=${#locale})}" method="post" th:object="${formular}">
             
-            <h1 th:text="#{benutzer.bearbeiten.titel(${username})}">Benutzer bearbeiten...</h1>
+            <h2 th:text="#{benutzer.bearbeiten.titel(${loginName})}">Benutzer bearbeiten...</h2>
             
             <div class="main">
 
