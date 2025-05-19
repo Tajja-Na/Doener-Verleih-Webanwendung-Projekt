@@ -4,6 +4,7 @@ import de.hsrm.mi.web.projekt.benutzer.ui.BenutzerFormular;
 import de.hsrm.mi.web.projekt.validators.GeeigneteLosung;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Version;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -12,6 +13,9 @@ import jakarta.validation.constraints.Size;
 public class Benutzer {
     @Id
     private String loginName;
+
+    @Version
+    private long version;
 
     private String rolle = "";
     private int vegetarizitaet = 0;
@@ -64,7 +68,13 @@ public class Benutzer {
     public void setLoginName(String loginName) {
         this.loginName = loginName;
     }
-    
+    public long getVersion() {
+        return version;
+    }
+    public void setVersion(long version) {
+        this.version = version;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

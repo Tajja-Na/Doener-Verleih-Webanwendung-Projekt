@@ -49,17 +49,6 @@ public class BenutzerController {
         return new BenutzerFormular();
     }
 
-    @ExceptionHandler(BenutzerException.class)
-    public String handleBenutzerException(BenutzerException e, Model m){
-
-        m.addAttribute("info", e.getMessage());
-        //return "benutzer/bearbeiten"; 
-        //ich hab es versucht so wie in den Vorlesungsfolien zu machen, allerdings wurde ich dann immer direkt weiter zu white error page geleitet
-        //ich weiß das mit redirect meine fehlermeldung nicht angezeigt wird, ich hab info aber trotzdem mal gesetzt und in mein thymeleaf html übertragen
-        //die fehlermeldung wird auch im terminal angezeigt und der nutzer wird nicht in die db gespeichert
-        return "redirect:/benutzer/bearbeiten";
-    }
-
 /*     @ModelAttribute("formularMap")
     public Map<String, BenutzerFormular> initFormularMap() {
         Map<String, BenutzerFormular> neueMap = new HashMap<String, BenutzerFormular>();
@@ -149,26 +138,27 @@ public class BenutzerController {
         if(!form.getLosung().equals(form.getLosungwh())){
             result.rejectValue("losungwh", "benutzer.fehler.losungwiederholung", "Losungen weichen ab");  
         }
-
-        if(!result.hasErrors()){
-            if(form.getLosung().equals("")){
-                if(b.isEmpty()){
-                    throw new BenutzerException("Es fehlt eine Losung!");
-                }else{
-                    form.setLosung(b.get().getLosung());
+        try{
+            if(!result.hasErrors()){
+                if(form.getLosung().equals("")){
+                    if(b.isEmpty()){
+                        throw new BenutzerException("Es fehlt eine Losung!");
+                    }else{
+                        form.setLosung(b.get().getLosung());
+                    }
                 }
-            }
 
-            Benutzer neuerBenutzer = mapper.benutzerFormularToBenutzer(form);
-            neuerBenutzer.setLoginName(benutzer);
+                Benutzer neuerBenutzer = mapper.benutzerFormularToBenutzer(form);
+                neuerBenutzer.setLoginName(benutzer);
 
-            try{
+                neuerBenutzer.getVersion();
+
                 bs.saveBenutzer(neuerBenutzer);
-            }catch(Exception e){
-                throw new BenutzerException("Schade, es gab einen Fehler beim Abspeichern");
+
+                logger.info(form.toString());
             }
-            
-            logger.info(form.toString());
+        }catch(BenutzerException e){
+            m.addAttribute("info", e.getMessage());
         }
 
         m.addAttribute("loginName", benutzer);
