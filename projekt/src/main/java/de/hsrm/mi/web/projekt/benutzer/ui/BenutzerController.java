@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Locale;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +26,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import de.hsrm.mi.web.projekt.benutzer.services.BenutzerService;
 import de.hsrm.mi.web.projekt.entities.benutzer.Benutzer;
 import de.hsrm.mi.web.projekt.entities.benutzer.mapper.BenutzerMapper;
+import jakarta.persistence.OptimisticLockException;
 import jakarta.validation.Valid;
 
 @Controller
-//@SessionAttributes("formularMap")
+// @SessionAttributes("formularMap")
 @SessionAttributes("formular")
 @RequestMapping("/benutzer")
 public class BenutzerController {
@@ -39,88 +39,98 @@ public class BenutzerController {
     private BenutzerMapper mapper;
 
     @Autowired
-    public BenutzerController(BenutzerService bs, BenutzerMapper mapper){
+    public BenutzerController(BenutzerService bs, BenutzerMapper mapper) {
         this.bs = bs;
         this.mapper = mapper;
     }
 
     @ModelAttribute("formular")
-    public BenutzerFormular initFormular(){
+    public BenutzerFormular initFormular() {
         return new BenutzerFormular();
     }
 
-/*     @ModelAttribute("formularMap")
-    public Map<String, BenutzerFormular> initFormularMap() {
-        Map<String, BenutzerFormular> neueMap = new HashMap<String, BenutzerFormular>();
-        return neueMap;
-    }
-
-    @GetMapping("/{username}")
-    public String bearbeiten_get(
-        @PathVariable("username") String benutzer,
-        @ModelAttribute("formularMap") Map<String, BenutzerFormular> formularMap,
-        Locale locale,
-        Model m) {
-        
-        BenutzerFormular formular;
-        
-        if(!formularMap.containsKey(benutzer)){
-            formular = new BenutzerFormular();
-            formular.setUsername(benutzer);
-            formularMap.put(benutzer, formular);
-        }else{
-            formular = formularMap.get(benutzer);
-        }
-        
-        m.addAttribute("locale", locale);
-        m.addAttribute("sprache", locale.getDisplayLanguage()); 
-        m.addAttribute("username", benutzer);
-        m.addAttribute("formular", formular);
-        return "benutzer/bearbeiten";
-    }
-
-    @PostMapping("/{username}")
-    public String formular_post(
-        @PathVariable("username") String benutzer,
-        @Valid @ModelAttribute("formular") BenutzerFormular form,
-        BindingResult result,
-        @ModelAttribute("formularMap") Map<String, BenutzerFormular> formularMap,
-        Model m) {
-        
-        if(!form.getLosung().equals(form.getLosungwh())){
-            result.rejectValue("losungwh", "benutzer.fehler.losungwiederholung", "Losungen weichen ab");  
-        }
-
-        if(result.hasErrors()){
-            return "benutzer/bearbeiten";
-        }else{
-            formularMap.put(benutzer, form);
-
-            m.addAttribute("username", benutzer);
-            m.addAttribute("formular", form);
-            logger.info(form.toString());
-        }
-        
-        return "benutzer/bearbeiten";
-    } */
+    /*
+     * @ModelAttribute("formularMap")
+     * public Map<String, BenutzerFormular> initFormularMap() {
+     * Map<String, BenutzerFormular> neueMap = new HashMap<String,
+     * BenutzerFormular>();
+     * return neueMap;
+     * }
+     * 
+     * @GetMapping("/{username}")
+     * public String bearbeiten_get(
+     * 
+     * @PathVariable("username") String benutzer,
+     * 
+     * @ModelAttribute("formularMap") Map<String, BenutzerFormular> formularMap,
+     * Locale locale,
+     * Model m) {
+     * 
+     * BenutzerFormular formular;
+     * 
+     * if(!formularMap.containsKey(benutzer)){
+     * formular = new BenutzerFormular();
+     * formular.setUsername(benutzer);
+     * formularMap.put(benutzer, formular);
+     * }else{
+     * formular = formularMap.get(benutzer);
+     * }
+     * 
+     * m.addAttribute("locale", locale);
+     * m.addAttribute("sprache", locale.getDisplayLanguage());
+     * m.addAttribute("username", benutzer);
+     * m.addAttribute("formular", formular);
+     * return "benutzer/bearbeiten";
+     * }
+     * 
+     * @PostMapping("/{username}")
+     * public String formular_post(
+     * 
+     * @PathVariable("username") String benutzer,
+     * 
+     * @Valid @ModelAttribute("formular") BenutzerFormular form,
+     * BindingResult result,
+     * 
+     * @ModelAttribute("formularMap") Map<String, BenutzerFormular> formularMap,
+     * Model m) {
+     * 
+     * if(!form.getLosung().equals(form.getLosungwh())){
+     * result.rejectValue("losungwh", "benutzer.fehler.losungwiederholung",
+     * "Losungen weichen ab");
+     * }
+     * 
+     * if(result.hasErrors()){
+     * return "benutzer/bearbeiten";
+     * }else{
+     * formularMap.put(benutzer, form);
+     * 
+     * m.addAttribute("username", benutzer);
+     * m.addAttribute("formular", form);
+     * logger.info(form.toString());
+     * }
+     * 
+     * return "benutzer/bearbeiten";
+     * }
+     */
 
     @GetMapping("/{loginName}")
     public String bearbeiten_get(
-        @PathVariable("loginName") String benutzer,
-        @ModelAttribute("formular") BenutzerFormular form,
-        Locale locale,
-        Model m){
+            @PathVariable("loginName") String benutzer,
+            @ModelAttribute("formular") BenutzerFormular form,
+            Locale locale,
+            Model m) {
+        Optional<Benutzer> b = bs.findBenutzerById(benutzer);
 
-        if(bs.findBenutzerById(benutzer).isEmpty()){
+        if (b.isEmpty()) {
             form = new BenutzerFormular();
             form.setLoginName(benutzer);
-        }else{
-            Optional<Benutzer> b = bs.findBenutzerById(benutzer);
+        } else {
             form = mapper.benutzerToBenutzerFormular(b.get());
+            form.setVersion(b.get().getVersion());
         }
-     
+
         m.addAttribute("locale", locale);
-        m.addAttribute("sprache", locale.getDisplayLanguage()); 
+        m.addAttribute("sprache", locale.getDisplayLanguage());
         m.addAttribute("loginName", benutzer);
         m.addAttribute("formular", form);
         return "benutzer/bearbeiten";
@@ -128,22 +138,23 @@ public class BenutzerController {
 
     @PostMapping("/{loginName}")
     public String formular_post(
-        @PathVariable("loginName") String benutzer,
-        @Valid @ModelAttribute("formular") BenutzerFormular form,
-        BindingResult result,
-        Model m) {
-        
+            @PathVariable("loginName") String benutzer,
+            @Valid @ModelAttribute("formular") BenutzerFormular form,
+            BindingResult result,
+            Model m) {
+
         Optional<Benutzer> b = bs.findBenutzerById(benutzer);
 
-        if(!form.getLosung().equals(form.getLosungwh())){
-            result.rejectValue("losungwh", "benutzer.fehler.losungwiederholung", "Losungen weichen ab");  
+        if (!form.getLosung().equals(form.getLosungwh())) {
+            result.rejectValue("losungwh", "benutzer.fehler.losungwiederholung", "Losungen weichen ab");
         }
-        try{
-            if(!result.hasErrors()){
-                if(form.getLosung().equals("")){
-                    if(b.isEmpty()){
+
+        try {
+            if (!result.hasErrors()) {
+                if (form.getLosung().equals("")) {
+                    if (b.isEmpty()) {
                         throw new BenutzerException("Es fehlt eine Losung!");
-                    }else{
+                    } else {
                         form.setLosung(b.get().getLosung());
                     }
                 }
@@ -151,13 +162,26 @@ public class BenutzerController {
                 Benutzer neuerBenutzer = mapper.benutzerFormularToBenutzer(form);
                 neuerBenutzer.setLoginName(benutzer);
 
-                neuerBenutzer.getVersion();
+                //hier muss nochmal geprüft werden ob der benutzer bereits in der db ist oder nicht, wenn er ncoh nciht drinne is 
+                //is b empty, wodurch eine fehlermeldung beim speichern eines neuen benutzers entsteht
+                if (b.isPresent()) {  
+                    long alteVersion = form.getVersion();
+                    long aktuelleVersion = neuerBenutzer.getVersion();
 
-                bs.saveBenutzer(neuerBenutzer);
+                    if (alteVersion == aktuelleVersion) {
+                        bs.saveBenutzer(neuerBenutzer);
+                    } else {
+                        throw new OptimisticLockException();
+                    }
+                }else{
+                    bs.saveBenutzer(neuerBenutzer);
+                }
 
                 logger.info(form.toString());
             }
-        }catch(BenutzerException e){
+        } catch (BenutzerException e) {
+            m.addAttribute("info", e.getMessage());
+        } catch (Exception e) {
             m.addAttribute("info", e.getMessage());
         }
 
@@ -177,8 +201,8 @@ public class BenutzerController {
 
     @GetMapping("/{loginName}/delete")
     public String delete_get(
-        @PathVariable("loginName") String benutzer,
-        Model m) {
+            @PathVariable("loginName") String benutzer,
+            Model m) {
         bs.deleteBenutzerById(benutzer);
         return "redirect:/benutzer";
     }
