@@ -135,5 +135,11 @@ public class DoenerController {
         return "doener/liste";
     } 
     
-
+    @GetMapping("/{id}/delete")
+    public String delete_get(
+            @PathVariable("id") long id,
+            Model m) {
+        ds.deleteDoenerById(id);
+        return "redirect:/doener";
+    }
 }

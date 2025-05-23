@@ -11,7 +11,7 @@
             padding: 30px;
             background-color: #ffffff;
             width: 80%;
-            max-width: 700px;
+            max-width: 900px;
             border-radius: 15px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
         }
@@ -116,6 +116,10 @@
             border-bottom: 1px solid;
         }
 
+        .tabelle{
+            margin-bottom: 50px;
+        }
+
     </style>
     <head>
         <title>Dönerverleih UdE</title>
@@ -125,7 +129,7 @@
 
         <div class="main">
             <h2>Dönerliste</h2>
-            <table>
+            <table class="tabelle">
                 <thead>
                     <tr>
                         <th th:text="#{doener.liste.spalte.id}">ID</th>
@@ -133,6 +137,7 @@
                         <th th:text="#{doener.liste.spalte.preis}">Preis</th>
                         <th th:text="#{doener.liste.spalte.vegetarizitaet}">Vegetarizitaet</th>
                         <th th:text="#{doener.liste.spalte.bestand}">Bestand</th>
+                        <th> </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -140,7 +145,7 @@
                         <td th:text="${doener.id}">Id</td>
                         <td th:text="${doener.bezeichnung}">Bezeichnung</td>
                         <td th:text="${doener.preis}">preis</td>
-                        <td th:text="${doener.vegetarizitaet}">vegetarizitaet</td>
+                        <td th:text="#{doener.vegetarizitaet.__${doener.vegetarizitaet}__}">vegetarizitaet</td>   <!--# ist für die übersetzung und $ wird dann bei der variable verwendet die is auch wirklich verändert -->
                         <td th:text="${doener.bestand}">bestand</td>
                         <td>
                             <a th:href="@{'/doener/' + ${doener.id}}" class="button" th:text="#{doener.liste.spalte.bearbeiten}"> bearbeiten </a>
