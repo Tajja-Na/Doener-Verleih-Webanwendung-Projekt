@@ -155,7 +155,7 @@
     </head>
 
     <body>
-        <th:block th:replace="~{fragments/kopffuss :: kopf('Dönerverleih UdE', 'Benutzer', 'Döner')}" />
+        <th:block th:replace="~{fragments/kopffuss :: kopf}" />
 
         <div th:if="${info}" class="error-info">
             <strong>Fehler:</strong> <span th:text="${info}">Fehlermeldung</span>

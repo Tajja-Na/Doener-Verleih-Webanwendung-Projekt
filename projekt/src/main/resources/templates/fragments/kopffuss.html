@@ -2,10 +2,10 @@
     <head>
     </head>
     <body>
-        <header th:fragment="kopf(titel, benutzer, doener)">
-            <h1 th:text="*{titel}">Dönerverleih UdE</h1>
-            <a th:href="@{/benutzer}" th:text="*{benutzer}"> Benutzer </a>
-            <a th:href="@{/doener}" th:text="*{doener}"> Doener </a>
+        <header th:fragment="kopf">
+            <h1 th:text="#{kopf.titel}">Dönerverleih UdE</h1>
+            <a th:href="@{/benutzer}" th:text="#{kopf.benutzer}"> Benutzer </a>
+            <a th:href="@{/doener}" th:text="#{kopf.doener}"> Doener </a>
 
             <div class="languages">
                 <a th:href="@{?sprache=de}"> DE </a>
