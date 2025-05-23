@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 //@Interface wäre hier falsch, das würde eine Annotation definieren, so wie in GeeigneteLosung 
 public interface BenutzerRepository extends JpaRepository<Benutzer, String>{  
-    //String, weil die Primärschlüssel der loginname und somit ein String ist
+    //String, weil der Primärschlüssel der loginname und somit ein String ist
 }

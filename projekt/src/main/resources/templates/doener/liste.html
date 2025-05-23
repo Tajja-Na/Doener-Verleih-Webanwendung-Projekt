@@ -124,30 +124,34 @@
         <th:block th:replace="~{fragments/kopffuss :: kopf('Dönerverleih UdE', 'Benutzer', 'Döner')}" />
 
         <div class="main">
-            <h2>Benutzerliste</h2>
+            <h2>Dönerliste</h2>
             <table>
                 <thead>
                     <tr>
-                        <th th:text="#{benutzer.liste.spalte.loginName}">Login-name</th>
-                        <th th:text="#{benutzer.liste.spalte.name}">Name</th>
-                        <th th:text="#{benutzer.liste.spalte.email}">Digitalpostanschrift</th>
-                        <th th:text="#{benutzer.liste.spalte.rolle}">Rolle</th>
+                        <th th:text="#{doener.liste.spalte.id}">ID</th>
+                        <th th:text="#{doener.liste.spalte.bezeichnung}">Bezeichnung</th>
+                        <th th:text="#{doener.liste.spalte.preis}">Preis</th>
+                        <th th:text="#{doener.liste.spalte.vegetarizitaet}">Vegetarizitaet</th>
+                        <th th:text="#{doener.liste.spalte.bestand}">Bestand</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="benutzer : ${benutzer}">
-                        <td th:text="${benutzer.loginName}">loginName</td>
-                        <td th:text="${benutzer.name}">name</td>
-                        <td th:text="${benutzer.email}">email</td>
-                        <td th:text="${benutzer.rolle}">rolle</td>
+                    <tr th:each="doener : ${doener}">
+                        <td th:text="${doener.id}">Id</td>
+                        <td th:text="${doener.bezeichnung}">Bezeichnung</td>
+                        <td th:text="${doener.preis}">preis</td>
+                        <td th:text="${doener.vegetarizitaet}">vegetarizitaet</td>
+                        <td th:text="${doener.bestand}">bestand</td>
                         <td>
-                            <a th:href="@{'/benutzer/' + ${benutzer.loginName}}" class="button" th:text="#{benutzer.liste.spalte.bearbeiten}"> bearbeiten </a>
-                            <a th:href="@{'/benutzer/' + ${benutzer.loginName} + '/delete'}" class="button-delete" th:text="#{benutzer.liste.spalte.loeschen}"> löschen </a>
-
+                            <a th:href="@{'/doener/' + ${doener.id}}" class="button" th:text="#{doener.liste.spalte.bearbeiten}"> bearbeiten </a>
+                            <a th:href="@{'/doener/' + ${doener.id} + '/delete'}" class="button-delete" th:text="#{doener.liste.spalte.loeschen}"> löschen </a>
                         </td>
                     </tr>
                 </tbody>
             </table>
+
+            <a th:href="@{'doener/0'}" class="button" th:text="#{doener.bearbeiten.neu.titel}"> erstellen </a>
+
         </div>
 
         <th:block th:replace="~{fragments/kopffuss :: fuss}" />

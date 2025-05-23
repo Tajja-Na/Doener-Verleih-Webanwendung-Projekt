@@ -18,6 +18,8 @@ public class Benutzer {
     private long version;
 
     private String rolle = "";
+
+    @NotNull    //eigentlich redundant, da der wert von grund auf 0 gesetzt ist
     private int vegetarizitaet = 0;
 
     @NotNull 

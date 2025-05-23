@@ -16,6 +16,8 @@ with open(csv_datei, newline="", encoding="utf-8") as f:
         with open(dateiname, "w", encoding="utf-8") as datei:
             
             for zeile in zeilen[1:]:
+                if not zeile:  #leere Zeilen sollen übersprungen werden
+                    continue
                 schluessel = zeile[0]
                 uebersetzung = zeile[sprachen.index(sprache)+1]
                 datei.write(f"{schluessel}={uebersetzung}\n")
