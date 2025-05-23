@@ -11,15 +11,18 @@ import org.springframework.stereotype.Service;
 
 import de.hsrm.mi.web.projekt.entities.doener.Doener;
 import de.hsrm.mi.web.projekt.entities.doener.DoenerRepository;
+import de.hsrm.mi.web.projekt.entities.zutat.ZutatRepository;
 
 @Service
 public class DoenerServiceImpl implements DoenerService{
     private DoenerRepository dr;
+    private ZutatRepository zr;
     private Logger logger = LoggerFactory.getLogger(DoenerServiceImpl.class);
 
     @Autowired
-    public DoenerServiceImpl(DoenerRepository dr){
+    public DoenerServiceImpl(DoenerRepository dr, ZutatRepository zr){
         this.dr = dr;
+        this.zr = zr;
     }
 
     @Override

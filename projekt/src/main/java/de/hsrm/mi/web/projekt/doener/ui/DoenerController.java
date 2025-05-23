@@ -1,5 +1,6 @@
 package de.hsrm.mi.web.projekt.doener.ui;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -69,7 +70,7 @@ public class DoenerController {
 
         List<Zutat> alleZutaten = zs.findAllZutaten();
     
-        m.addAttribute("zutat", alleZutaten);
+        m.addAttribute("zutaten", alleZutaten);
         m.addAttribute("locale", locale);
         m.addAttribute("sprache", locale.getDisplayLanguage());
         m.addAttribute("id", id);
@@ -80,6 +81,7 @@ public class DoenerController {
     @PostMapping("/{id}")
     public String neuenDoenerErstellen_post(
             @PathVariable("id") long id,
+            @RequestParam("zutaten") List<String> zutatenEan,
             @Valid @ModelAttribute("dformular") DoenerFormular form,
             BindingResult result,
             Model m) {
@@ -99,6 +101,17 @@ public class DoenerController {
                 
                 Doener neuerDoener = mapper.doenerFormularToDoener(form);
                 neuerDoener.setId(id);
+
+                List<Zutat> alleZutaten = new ArrayList<>(zs.findAllZutaten());
+                List<Zutat> ausgewählteZutaten = new ArrayList<>();
+
+                for(Zutat z : alleZutaten){
+                    if(zutatenEan.contains(z.getEan())){
+                        ausgewählteZutaten.add(z);
+                    }
+                }
+
+                neuerDoener.setZutaten(ausgewählteZutaten);
 
                 if(doener.isPresent()){
                     long alteVersion = form.getVersion();
