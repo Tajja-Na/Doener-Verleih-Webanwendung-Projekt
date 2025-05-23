@@ -189,6 +189,13 @@
                 <label for="bestand" th:text="#{doener.bestand}">Bestand</label>
                 <input type="number" th:field="*{bestand}" th:errorclass="error" id="bestand">
                 <span th:if="${#fields.hasErrors('bestand')}" th:errors="*{bestand}" class="error-message"></span>
+                
+                <br></br>
+
+                <label for="zutaten" th:text="#{doener.zutaten}">Zutaten</label>
+                <select name="zutaten" multiple>
+                        <option th:each="zutat :${zutat}" th:value="${zutat.ean}" th:text=" ${zutat.name} + ' (' +  ${zutat.vegetarizitaet} + '=' + #{doener.vegetarizitaet.__${zutat.vegetarizitaet}__} + ') ' "></option>
+                </select>
 
                 <br><br>
 

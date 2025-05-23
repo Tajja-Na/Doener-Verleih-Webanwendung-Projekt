@@ -181,13 +181,19 @@ public class BenutzerController {
             }
         } catch (BenutzerException e) {
             m.addAttribute("info", e.getMessage());
+            m.addAttribute("loginName", benutzer);
+            m.addAttribute("formular", form);
+            return "/benutzer/bearbeiten";
         } catch (Exception e) {
             m.addAttribute("info", e.getMessage());
+            m.addAttribute("loginName", benutzer);
+            m.addAttribute("formular", form);
+            return "/benutzer/bearbeiten";
         }
 
         m.addAttribute("loginName", benutzer);
         m.addAttribute("formular", form);
-        return "benutzer/bearbeiten";
+        return "redirect:/benutzer";
     }
 
     @GetMapping

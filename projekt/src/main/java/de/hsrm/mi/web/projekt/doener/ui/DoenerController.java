@@ -1,6 +1,7 @@
 package de.hsrm.mi.web.projekt.doener.ui;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import de.hsrm.mi.web.projekt.doener.services.DoenerService;
+import de.hsrm.mi.web.projekt.doener.services.ZutatenService;
 import de.hsrm.mi.web.projekt.entities.doener.Doener;
 import de.hsrm.mi.web.projekt.entities.doener.mapper.DoenerMapper;
+import de.hsrm.mi.web.projekt.entities.zutat.Zutat;
 import jakarta.persistence.OptimisticLockException;
 import jakarta.validation.Valid;
 
@@ -33,11 +36,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class DoenerController {
     private Logger logger = LoggerFactory.getLogger(DoenerController.class);
     private DoenerService ds;
+    private ZutatenService zs;
     private DoenerMapper mapper;
 
     @Autowired
-    public DoenerController(DoenerService ds, DoenerMapper mapper) {
+    public DoenerController(DoenerService ds, ZutatenService zs,DoenerMapper mapper) {
         this.ds = ds;
+        this.zs = zs;
         this.mapper = mapper;
     }
 
@@ -62,6 +67,9 @@ public class DoenerController {
             form.setVersion(doener.get().getVersion());
         }
 
+        List<Zutat> alleZutaten = zs.findAllZutaten();
+    
+        m.addAttribute("zutat", alleZutaten);
         m.addAttribute("locale", locale);
         m.addAttribute("sprache", locale.getDisplayLanguage());
         m.addAttribute("id", id);
@@ -70,7 +78,7 @@ public class DoenerController {
     }
     
     @PostMapping("/{id}")
-    public String postMethodName(
+    public String neuenDoenerErstellen_post(
             @PathVariable("id") long id,
             @Valid @ModelAttribute("dformular") DoenerFormular form,
             BindingResult result,
@@ -88,7 +96,7 @@ public class DoenerController {
                     }
                 } ich glaub das macht nicht mal Sinn, weil bezeichnung die annotation notblank hat, bei einem fehler geht er eh nicht hier rein
                 maybe einfach ins else packen? aber dann sind da 2 fehlermeldungen, is ja auch schwachsinn*/
-
+                
                 Doener neuerDoener = mapper.doenerFormularToDoener(form);
                 neuerDoener.setId(id);
 
