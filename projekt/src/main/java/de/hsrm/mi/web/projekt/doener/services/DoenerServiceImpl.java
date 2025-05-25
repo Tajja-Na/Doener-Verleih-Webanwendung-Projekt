@@ -1,6 +1,8 @@
 package de.hsrm.mi.web.projekt.doener.services;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import de.hsrm.mi.web.projekt.entities.doener.Doener;
 import de.hsrm.mi.web.projekt.entities.doener.DoenerRepository;
+import de.hsrm.mi.web.projekt.entities.zutat.Zutat;
 import de.hsrm.mi.web.projekt.entities.zutat.ZutatRepository;
 
 @Service
@@ -27,6 +30,20 @@ public class DoenerServiceImpl implements DoenerService{
 
     @Override
     public Doener saveDoener(Doener doener) {
+        List<Zutat> zutaten = doener.getZutaten();
+        
+        if(!zutaten.isEmpty()){
+            int minVWert = zutaten.get(0).getVegetarizitaet();  //einfach den ersten wert aus der zutaten liste nehmen, um ein richtigen einstiegswert zu haben
+                
+            for(Zutat z : zutaten){
+                int aktuellerVWert = z.getVegetarizitaet();
+
+                if(aktuellerVWert < minVWert){
+                    minVWert = aktuellerVWert;
+                }
+            }
+            doener.setVegetarizitaet(minVWert);
+        }
         return dr.save(doener);
     }
 
