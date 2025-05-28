@@ -12,6 +12,5 @@ public interface BenutzerMapper {
     //da es losungwh nur im Formular gibt muss es hier beim mappen ignoriert werden, weil der mapper sonst keinen passenden partner beim benutzer findet
     @Mapping(target = "losungwh", ignore = true)  
     BenutzerFormular benutzerToBenutzerFormular(Benutzer benutzer);
-
     Benutzer benutzerFormularToBenutzer(BenutzerFormular formular);
 }
