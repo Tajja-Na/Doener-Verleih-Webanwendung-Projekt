@@ -247,7 +247,9 @@ public class BenutzerController {
             @PathVariable ("feldname") String feldname,
             @RequestParam("wert") String wert,
             Model m) {
+
         logger.info("feldname: " +feldname);
+
         Optional<Benutzer> benutzer = bs.findBenutzerById(loginName);
         String alterWert = "";
 
@@ -263,19 +265,25 @@ public class BenutzerController {
             return "benutzer/eingabefeld :: ausgeben";
 
         }catch(Exception e){
-                switch (feldname) {
-                    case "name": 
-                        alterWert = benutzer.get().getName();
-                        break;
-                    case "email": 
-                        alterWert = benutzer.get().getEmail();
-                        break;
+
+            if(benutzer.isEmpty()){
+                throw new BenutzerException("Benutzer: "+loginName+" wurde nicht gefunden");
+            }
+            switch (feldname) {
+                case "name": 
+                    alterWert = benutzer.get().getName();
+                    break;
+                case "email": 
+                    alterWert = benutzer.get().getEmail();
+                    break;
                 };
             logger.info("bin hier im catch drinne - hilfe");
 
             m.addAttribute("wert", alterWert);
             m.addAttribute("loginName", loginName);
             m.addAttribute("feldname", feldname);
+
+            m.addAttribute("errorMessage" , "benutzer.fehler.fehler");
             
             return "benutzer/eingabefeld :: bearbeiten";
         }

@@ -11,7 +11,8 @@
         <th:block th:fragment="bearbeiten(loginName, feldname, wert)">   
             <td>
                 <form th:attr="hx-put=@{/benutzer/{loginName}/hx/feld/{feldname}(loginName=${loginName},feldname=${feldname})}" hx-target="closest td" hx-swap="outerHTML">
-                    <input type="text" name="wert" th:value="${wert}"/>
+                    <input type="text" name="wert" th:value="${wert}" th:classappend="${errorMessage} != null ? ' input-error' : ''"/>
+                    <div th:if="${errorMessage}" class="error-text" th:text="#{${errorMessage}}"></div>
                     <button type="submit">OK</button>
                 </form>
             </td>

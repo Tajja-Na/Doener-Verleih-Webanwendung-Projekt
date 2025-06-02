@@ -24,6 +24,7 @@ benutzer.liste.spalte.loginName;Login-Name;Login-Name;Gebruikers naam
 benutzer.liste.spalte.name;Name;Name;Naam
 benutzer.liste.spalte.email;E-Mail;Digitalpostanschrift;E-mailadres
 benutzer.liste.spalte.rolle;Role;Rolle;Rol
+benutzer.fehler.fehler;"Here is an Error";"Hier ist ein Fehler!";"hier is een fout"
 
 kopf.doener;Kebabs;Döner;Kebabs
 doener.liste.titel;Kebab List;Dönerliste;Lijst van alle kebabs
