@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import de.hsrm.mi.web.projekt.benutzer.ui.BenutzerException;
 import de.hsrm.mi.web.projekt.entities.benutzer.Benutzer;
 import de.hsrm.mi.web.projekt.entities.benutzer.BenutzerRepository;
 
@@ -40,5 +41,28 @@ public class BenutzerServiceImpl implements BenutzerService{
     @Override
     public void deleteBenutzerById(String loginName) {
         br.deleteById(loginName);
+    }
+
+    @Override
+    public Benutzer aktualisiereBenutzerAttribut(String loginName, String feldname, String wert) {
+        Optional<Benutzer> benutzer = findBenutzerById(loginName);
+        if(benutzer.isEmpty()){
+            throw new BenutzerException("Benutzer konnte nicht gefunden werden");
+        }
+
+        switch(feldname) {
+            case "name" : 
+                benutzer.get().setName(wert);
+                break;
+            case "email" : 
+                benutzer.get().setEmail(wert);
+                logger.info("hallo bin im swtch case");
+                break;  
+            default:
+                throw new IllegalArgumentException("Unbekanntes Feld: " + feldname); 
+        };
+
+        logger.info("hallo ich war mal in aktualisiere drinne");
+        return benutzer.get();
     }
 }

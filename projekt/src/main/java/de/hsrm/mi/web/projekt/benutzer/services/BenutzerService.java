@@ -11,4 +11,6 @@ public interface BenutzerService {
     Optional<Benutzer> findBenutzerById(String loginName);
     Collection<Benutzer> findAllBenutzer();
     void deleteBenutzerById(String loginName);
+
+    Benutzer aktualisiereBenutzerAttribut(String loginName, String feldname, String wert);  //Als feldname kommen in unserem Fall nur die Strings name oder email infrage
 }

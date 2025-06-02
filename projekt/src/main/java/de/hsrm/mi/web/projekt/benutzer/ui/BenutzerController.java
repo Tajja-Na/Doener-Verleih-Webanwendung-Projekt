@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -28,6 +30,8 @@ import de.hsrm.mi.web.projekt.entities.benutzer.Benutzer;
 import de.hsrm.mi.web.projekt.entities.benutzer.mapper.BenutzerMapper;
 import jakarta.persistence.OptimisticLockException;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 // @SessionAttributes("formularMap")
@@ -211,5 +215,69 @@ public class BenutzerController {
             Model m) {
         bs.deleteBenutzerById(benutzer);
         return "redirect:/benutzer";
+    }
+
+    @GetMapping("/{loginName}/hx/feld/{feldname}")
+    public String htmx_bearbeiten(
+            @PathVariable ("feldname") String feldname, 
+            @PathVariable ("loginName") String loginName,
+            Model m) {
+        Optional<Benutzer> benutzer = bs.findBenutzerById(loginName);
+
+        String wert = "";
+        if(benutzer.isPresent()){
+            wert = 
+                switch(feldname) {
+                    case "name" -> benutzer.get().getName();
+                    case "email" -> benutzer.get().getEmail();
+                    default -> "";
+                };
+        }
+
+        m.addAttribute("loginName", loginName);
+        m.addAttribute("feldname", feldname);
+        m.addAttribute("wert", wert);
+
+        return "benutzer/eingabefeld :: bearbeiten";
+    }
+    
+    @PutMapping("/{loginName}/hx/feld/{feldname}")
+    public String htmx_post(
+            @PathVariable ("loginName") String loginName,
+            @PathVariable ("feldname") String feldname,
+            @RequestParam("wert") String wert,
+            Model m) {
+        logger.info("feldname: " +feldname);
+        Optional<Benutzer> benutzer = bs.findBenutzerById(loginName);
+        String alterWert = "";
+
+        try{
+            Benutzer b = bs.aktualisiereBenutzerAttribut(loginName, feldname, wert);
+
+            bs.saveBenutzer(b);
+
+            m.addAttribute("wert", wert);
+            m.addAttribute("loginName", loginName);
+            m.addAttribute("feldname", feldname);
+
+            return "benutzer/eingabefeld :: ausgeben";
+
+        }catch(Exception e){
+                switch (feldname) {
+                    case "name": 
+                        alterWert = benutzer.get().getName();
+                        break;
+                    case "email": 
+                        alterWert = benutzer.get().getEmail();
+                        break;
+                };
+            logger.info("bin hier im catch drinne - hilfe");
+
+            m.addAttribute("wert", alterWert);
+            m.addAttribute("loginName", loginName);
+            m.addAttribute("feldname", feldname);
+            
+            return "benutzer/eingabefeld :: bearbeiten";
+        }
     }
 }

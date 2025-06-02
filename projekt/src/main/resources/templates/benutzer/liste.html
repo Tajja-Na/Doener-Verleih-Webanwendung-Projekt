@@ -122,7 +122,7 @@
 
     </style>
     <head>
-        <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.js" integrity="sha384-oeUn82QNXPuVkGCkcrInrS1twIxKhkZiFfr2TdiuObZ3n3yIeMiqcRzkIcguaof1" crossorigin="anonymous"></script>
         <title>Dönerverleih UdE</title>
     </head>
     <body>
@@ -137,13 +137,14 @@
                         <th th:text="#{benutzer.liste.spalte.name}">Name</th>
                         <th th:text="#{benutzer.liste.spalte.email}">Digitalpostanschrift</th>
                         <th th:text="#{benutzer.liste.spalte.rolle}">Rolle</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="benutzer : ${benutzer}">
-                        <!--# <td th:text="${benutzer.loginName}">loginName</td> -->
-                        <td th:text="${benutzer.name}">name</td>    
-                        <td th:replace="~{benutzer/eingabefeld :: ausgeben(loginName=${benutzer.loginName},feldname=email,wert=${benutzer.email})}">email</td>  
+                        <td th:text="${benutzer.loginName}">loginName</td> 
+                        <td th:replace="~{benutzer/eingabefeld :: ausgeben(loginName=${benutzer.loginName},feldname=name,wert=${benutzer.name})}"> </td>
+                        <td th:replace="~{benutzer/eingabefeld :: ausgeben(loginName=${benutzer.loginName},feldname=email,wert=${benutzer.email})}">  </td>
                         <td th:text="${benutzer.rolle}">rolle</td>  
                         <td>
                             <a th:href="@{'/benutzer/' + ${benutzer.loginName}}" class="button" th:text="#{benutzer.liste.spalte.bearbeiten}"> bearbeiten </a>

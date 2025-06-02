@@ -1,12 +1,20 @@
 <html>
     <head>
+        <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.js" integrity="sha384-oeUn82QNXPuVkGCkcrInrS1twIxKhkZiFfr2TdiuObZ3n3yIeMiqcRzkIcguaof1" crossorigin="anonymous"></script>
     </head>
     <body>
-        <td th:fragment="ausgeben(loginName, feldname, wert)">   <!--# erste Fragment ist für die “normale Darstellung” einer Tabellenzelle-->
-            <span th:text="${wert}">Wert</span>
-        </td>
-
-        <td th:fragment="email">
-        </td>
+        <th:block th:fragment="ausgeben(loginName, feldname, wert)">
+            <td>
+                <span th:text="${wert}" th:attr="hx-get=@{/benutzer/{loginName}/hx/feld/{feldname}(loginName=${loginName},feldname=${feldname})}" hx-trigger="click" hx-target="closest td" hx-swap="outerHTML">Wert</span>
+            </td>
+        </th:block>
+        <th:block th:fragment="bearbeiten(loginName, feldname, wert)">   
+            <td>
+                <form th:attr="hx-put=@{/benutzer/{loginName}/hx/feld/{feldname}(loginName=${loginName},feldname=${feldname})}" hx-target="closest td" hx-swap="outerHTML">
+                    <input type="text" name="wert" th:value="${wert}"/>
+                    <button type="submit">OK</button>
+                </form>
+            </td>
+        </th:block>
     </body>
 </html>
