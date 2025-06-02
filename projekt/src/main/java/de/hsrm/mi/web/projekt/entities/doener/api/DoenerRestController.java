@@ -7,6 +7,8 @@ import de.hsrm.mi.web.projekt.entities.doener.Doener;
 import de.hsrm.mi.web.projekt.entities.doener.DoenerDTO;
 import de.hsrm.mi.web.projekt.entities.doener.mapper.DoenerMapper;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.ui.Model;
@@ -28,7 +30,7 @@ public class DoenerRestController {
     }
     
     @GetMapping("/doener/{id}")
-    public DoenerDTO get_id(@PathVariable ("id") long id, Model m) {
+    public DoenerDTO get_id(@PathVariable ("id") long id) {
         Optional<Doener> doener = ds.findDoenerById(id);
 
         if(doener.isEmpty()){
@@ -39,10 +41,8 @@ public class DoenerRestController {
     }
 
     @GetMapping("/doener")
-    public String get_doener(@RequestParam String param) {   //das ist nh list(doenerDTO)
-
-        return new String();
-    }
-    
-    
+    public List<DoenerDTO> get_Alledoener() {   //das ist nh list(doenerDTO)
+        List<Doener> alleDoener = (List<Doener>) ds.findAllDoener();    //müssen das erstmal casten, weil findAllDoener gibt keine List sondern eine Collection zurück
+        return mapper.doenerListToDoenerDTOList(alleDoener);            //Collection ist ein allgemeiner Begriff für eine Sammlung von Objekten - List eine spezifische Art von Collection 
+    } 
 }

@@ -16,7 +16,9 @@ public interface DoenerMapper {
     DoenerFormular doenerToDoenerFormular(Doener doener);
     Doener doenerFormularToDoener(DoenerFormular doener);
     List<ZutatFormular> zutatToZutatFormList (List<Zutat> lstz);
+
     Doener doenerDTOtoDoener(DoenerDTO doenerDTO);
     DoenerDTO doenerToDoenerDTO(Doener doener);
+    
     List<DoenerDTO> doenerListToDoenerDTOList(List<Doener> doenerList);
 }

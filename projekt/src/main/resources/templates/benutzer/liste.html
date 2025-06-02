@@ -122,6 +122,7 @@
 
     </style>
     <head>
+        <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
         <title>Dönerverleih UdE</title>
     </head>
     <body>
@@ -142,9 +143,9 @@
                 <tbody>
                     <tr th:each="benutzer : ${benutzer}">
                         <td th:text="${benutzer.loginName}">loginName</td>
-                        <td th:text="${benutzer.name}">name</td>
-                        <td th:text="${benutzer.email}">email</td>
-                        <td th:text="${benutzer.rolle}">rolle</td>
+                        <td th:text="${benutzer.name}">name</td>    #
+                        <td th:text="${benutzer.email}">email</td>  #
+                        <td th:text="${benutzer.rolle}">rolle</td>  
                         <td>
                             <a th:href="@{'/benutzer/' + ${benutzer.loginName}}" class="button" th:text="#{benutzer.liste.spalte.bearbeiten}"> bearbeiten </a>
                             <a th:href="@{'/benutzer/' + ${benutzer.loginName} + '/delete'}" class="button-delete" th:text="#{benutzer.liste.spalte.loeschen}"> löschen </a>

@@ -194,7 +194,8 @@
 
                 <label for="zutaten" th:text="#{doener.zutaten}">Zutaten</label>
                 <select name="zutaten" multiple>
-                        <option th:each="zutat :${zutaten}" th:value="${zutat.ean}" th:text=" ${zutat.name} + ' (' +  ${zutat.vegetarizitaet} + '=' + #{doener.vegetarizitaet.__${zutat.vegetarizitaet}__} + ') ' "></option>
+                        <option th:each="zutat :${zutaten}" th:value="${zutat.ean}" 
+                            th:text=" ${zutat.name} + ' (' +  ${zutat.vegetarizitaet} + '=' + #{doener.vegetarizitaet.__${zutat.vegetarizitaet}__} + ') ' "></option>
                 </select>
 
                 <br><br>

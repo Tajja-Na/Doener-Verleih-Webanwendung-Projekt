@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.hsrm.mi.web.projekt.entities.doener.Doener;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Version;
@@ -27,7 +28,7 @@ public class Zutat {
     @NotNull
     private int vegetarizitaet;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Doener> alleDoener;
 
     public String getEan() {
