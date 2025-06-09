@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import de.hsrm.mi.web.projekt.doener.services.DoenerErfindungsService;
 import de.hsrm.mi.web.projekt.doener.services.DoenerService;
 import de.hsrm.mi.web.projekt.doener.services.ZutatenService;
 import de.hsrm.mi.web.projekt.entities.doener.Doener;
@@ -38,12 +39,14 @@ public class DoenerController {
     private Logger logger = LoggerFactory.getLogger(DoenerController.class);
     private DoenerService ds;
     private ZutatenService zs;
+    private DoenerErfindungsService des;
     private DoenerMapper mapper;
 
     @Autowired
-    public DoenerController(DoenerService ds, ZutatenService zs,DoenerMapper mapper) {
+    public DoenerController(DoenerService ds, ZutatenService zs, DoenerMapper mapper, DoenerErfindungsService des) {
         this.ds = ds;
         this.zs = zs;
+        this.des = des;
         this.mapper = mapper;
     }
 
@@ -151,7 +154,7 @@ public class DoenerController {
     @GetMapping
     public String liste_get(Model m) {
         Collection<Doener> alleDoener = ds.findAllDoener();
-        logger.info("Anzahl Doener: {}", alleDoener.size());
+        logger.info("Anzahl Doener: ", alleDoener.size());
         m.addAttribute("doener", alleDoener);
         return "doener/liste";
     } 
@@ -163,4 +166,11 @@ public class DoenerController {
         ds.deleteDoenerById(id);
         return "redirect:/doener";
     }
+
+    @GetMapping("/pokemonDoener")
+    public String neuerDoener(Model m) {
+        des.neuenDoenerErfinden();
+        return "redirect:/doener";
+    }
+    
 }

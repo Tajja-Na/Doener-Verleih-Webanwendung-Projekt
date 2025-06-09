@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import de.hsrm.mi.web.projekt.benutzer.services.BenutzerService;
 import de.hsrm.mi.web.projekt.entities.benutzer.Benutzer;
 import de.hsrm.mi.web.projekt.entities.benutzer.mapper.BenutzerMapper;
+import de.hsrm.mi.web.projekt.entities.doener.Doener;
 import jakarta.persistence.OptimisticLockException;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -283,7 +284,7 @@ public class BenutzerController {
             m.addAttribute("loginName", loginName);
             m.addAttribute("feldname", feldname);
 
-            m.addAttribute("errorMessage" , "benutzer.fehler.fehler");
+            m.addAttribute("errorMessage" , "benutzer.fehler.fehler");  //switch einfügen um zu gucken was für ein fehler
             
             return "benutzer/eingabefeld :: bearbeiten";
         }
