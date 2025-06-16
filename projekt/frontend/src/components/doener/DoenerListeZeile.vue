@@ -4,7 +4,16 @@
             <td>{{ props.doener.bezeichnung }}</td>
             <td>{{ props.doener.preis }}</td>
             <td>{{ vegetarizitaet }}</td>
-            <td><button>?</button></td>
+            <td><button @click="zeigeZutaten = !zeigeZutaten">?</button></td>
+        </tr>
+        <tr v-if="zeigeZutaten" v-for="zutat in doener.zutaten" :key="zutat.ean">
+            <td><img :src="`/images/zutaten/${zutat.ean}.png`"/></td>
+            <td colspan="2">
+                <a :href="`https://de.wikipedia.org/wiki/${zutat.name}`" target="_blank">
+                    {{ zutat.name }}
+                </a>
+            </td>
+            <td colspan="2">{{ berechneVegWert(zutat.vegetarizitaet) }}</td>
         </tr>
 </template>
 
@@ -13,7 +22,7 @@
     import {ref} from "vue"
 
     const props = defineProps<{
-        doener: IDoenerDTD
+        doener: IDoenerDTD 
     }>()
 
     function berechneVegWert(wert : number ): string{
@@ -30,4 +39,5 @@
     }
     
     const vegetarizitaet = ref(berechneVegWert(props.doener.vegetarizitaet))
+    const zeigeZutaten = ref(false)
 </script>

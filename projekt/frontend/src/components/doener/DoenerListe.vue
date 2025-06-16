@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
     import DoenerListeZeile from './DoenerListeZeile.vue';
-    import type { IDoenerDTD } from '@/views/DoenerListeView.vue';
+    import type { IDoenerDTD, IZutatDTD } from '@/views/DoenerListeView.vue';
 
     const props = defineProps<{
         doener : IDoenerDTD[]
