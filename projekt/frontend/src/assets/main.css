@@ -8,7 +8,7 @@
 }
 
 header a, h1{
-    font-size: 22px;
+    font-size: 25px;
     color: white;
     padding: 8px 12px;
     text-decoration: none;
@@ -28,7 +28,7 @@ footer {
     text-align: center;
     margin-top: 40px;
     bottom:0;
-    position:fixed;
+    position:sticky;
     width:100%;
 }
 
@@ -55,3 +55,75 @@ footer {
   margin-top: 10px;
   border-radius: 10px;
 }
+
+ p {
+    font-family: Arial, Helvetica, sans-serif;
+    padding-right: 10px;
+    font-size: 18px;
+  }
+
+  .title {
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .intro {
+    display: flex;
+    align-items: center;      /* Vertikal zentriert */
+    justify-content: space-between;
+    margin: auto;
+    width: 80%;
+    margin-top: 20px;
+    gap: 30px;
+  }
+
+  .text {
+    max-width: 50%;
+  }
+
+  .image img {
+    max-height: 160px;
+    width: auto;
+  }
+
+  .suche {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .suche input {
+    width: 50%;
+    max-width: 500px;
+    padding: 8px;
+    font-size: 16px;
+  }
+
+  .main {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  table {
+    width: 80%;
+    margin-top: 20px;
+    border-radius: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  th {
+    background-color: #b6aaff;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid;
+  }

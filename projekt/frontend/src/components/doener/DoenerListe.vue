@@ -2,10 +2,10 @@
     <table>
         <thead>
             <tr>
-                <th>id</th>
-                <th>bezeichnung</th>
-                <th>preis</th>
-                <th>vegetarizitaet</th>
+                <th>ID</th>
+                <th>Bezeichnung</th>
+                <th>Preis</th>
+                <th>Vegetarizitaet</th>
                 <th></th>
             </tr>
         </thead>
@@ -16,9 +16,9 @@
 </template>
 
 <script setup lang="ts">
+    import type { IDoenerDTD } from '@/stores/IDoener';
     import DoenerListeZeile from './DoenerListeZeile.vue';
-    import type { IDoenerDTD, IZutatDTD } from '@/views/DoenerListeView.vue';
-
+    
     const props = defineProps<{
         doener : IDoenerDTD[]
     }>()

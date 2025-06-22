@@ -7,7 +7,7 @@
   <div v-if="info" class="info-box">
     <div id="a1">
       <span> Info </span>
-      <button @click="info = ''"> X </button>
+      <button @click= loecheInfo> X </button>
     </div>
 
     <div id="a2">
@@ -22,9 +22,10 @@
 <style src="./assets/main.css"></style>
 
 <script setup lang="ts">
-import { ref } from "vue"
-import DoenerListeView from "./views/DoenerListeView.vue";
+  import { useInfo } from '@/composables/useInfo'
+  import DoenerListeView from "./views/DoenerListeView.vue";
 
-const info = ref("Fitness-Deal: Für jeden veganen Döner gibt es zwei unvegetarische gratis!")
+  const { info, loecheInfo, setzeInfo} = useInfo()
+  setzeInfo("Willkommen, Döner-Community!")
 
 </script>

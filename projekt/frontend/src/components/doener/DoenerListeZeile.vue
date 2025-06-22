@@ -7,18 +7,18 @@
             <td><button @click="zeigeZutaten = !zeigeZutaten">?</button></td>
         </tr>
         <tr v-if="zeigeZutaten" v-for="zutat in doener.zutaten" :key="zutat.ean">
-            <td><img :src="`/images/zutaten/${zutat.ean}.png`"/></td>
-            <td colspan="2">
+            <td class="zutaten"><img :src="`/images/zutaten/${zutat.ean}.png`"/></td>
+            <td class="zutaten" colspan="2">
                 <a :href="`https://de.wikipedia.org/wiki/${zutat.name}`" target="_blank">
                     {{ zutat.name }}
                 </a>
             </td>
-            <td colspan="2">{{ berechneVegWert(zutat.vegetarizitaet) }}</td>
+            <td class="zutaten" colspan="2">{{ berechneVegWert(zutat.vegetarizitaet) }}</td>
         </tr>
 </template>
 
 <script setup lang="ts">
-    import type {IDoenerDTD} from '@/views/DoenerListeView.vue';
+    import type { IDoenerDTD } from "@/stores/IDoener";
     import {ref} from "vue"
 
     const props = defineProps<{
@@ -41,3 +41,9 @@
     const vegetarizitaet = ref(berechneVegWert(props.doener.vegetarizitaet))
     const zeigeZutaten = ref(false)
 </script>
+
+<style>
+    .zutaten{
+        border-bottom: 0px;
+    }
+</style>
