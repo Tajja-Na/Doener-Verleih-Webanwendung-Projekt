@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, reactive } from "vue";
 import type { IDoenerDTD } from './IDoener'
-import DoenerListe from "@/components/doener/DoenerListe.vue";
 
 export const useDoenerStore = defineStore("doenerstore", () => {
     const doenerdata = reactive<{ok:boolean; doenerliste:IDoenerDTD[]}>

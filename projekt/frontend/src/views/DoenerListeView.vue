@@ -1,21 +1,23 @@
 <template>
-  <div class="intro">
-    <div class="text">
-      <p class="title">Unser aktuelles Dönerangebot</p>
-      <p>Nur wenige Klicks trennen Sie von Ihrem Traumdöner</p>
+  <div class="main-main">
+    <div class="intro">
+      <div class="text">
+        <p class="title">Unser aktuelles Dönerangebot</p>
+        <p>Nur wenige Klicks trennen Sie von Ihrem Traumdöner</p>
+      </div>
+      <div class="image">
+        <img src="@/assets/doener-ritter-tiere.png" />
+      </div>
     </div>
-    <div class="image">
-      <img src="@/assets/doener-ritter-tiere.png" />
+
+    <div class="suche">
+      <input type="text" v-model="begriff">
+      <button @click="begriff = ''"> Reset </button>
     </div>
-  </div>
 
-  <div class="suche">
-    <input type="text" v-model="begriff">
-    <button @click="begriff = ''"> Reset </button>
-  </div>
-
-  <div class="main">
-    <DoenerListe :doener="liste"></DoenerListe>
+    <div class="main">
+      <DoenerListe :doener="liste"></DoenerListe>
+    </div>
   </div>
 </template>
 
