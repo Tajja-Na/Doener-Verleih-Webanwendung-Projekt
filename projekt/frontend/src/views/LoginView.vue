@@ -1,18 +1,12 @@
 <template>
-    <h1> Login </h1>
-    <div v-if="info" class="info-box">
-        <div id="a1">
-            <span> Info </span>
-            <button @click= loecheInfo> X </button>
-        </div>´
-        <div id="a2">
-            <span>{{ info }}</span>
+    <div class="login">
+        <h1> Login </h1>
+        <div class="input-felder">
+            <input type="text" v-model="usernameEingabe">
+            <input type="password" v-model="losung">
         </div>
+        <button @click="einloggen(usernameEingabe, losung)"> Login! </button>
     </div>
-    
-    <input type="text" v-model="usernameEingabe">
-    <input type="password" v-model="losung">
-    <button @click="einloggen(usernameEingabe, losung)"> Login! </button>
 </template>
 
 <style>
@@ -23,9 +17,9 @@
     import { useInfo } from '@/composables/useInfo';
     import { useLoginStore } from '@/stores/loginstore';
     import { storeToRefs } from 'pinia';
+    import { useRouter } from 'vue-router';
 
     const { info, loecheInfo, setzeInfo} = useInfo()
-    setzeInfo("Fehler!")
 
     const usernameEingabe = ref("")
     const losung = ref("")
@@ -33,6 +27,8 @@
     const loginStore = useLoginStore()
     const { login, logout } = loginStore
     const { loggedIn } = storeToRefs(loginStore)
+    
+    const router = useRouter()
 
     onMounted( () => {
         logout()
@@ -45,6 +41,7 @@
             losung.value = ""
             setzeInfo("Jammer, der Login-Versuch war nicht erfolgreich")
         }else{
+            router.push("/doener")
             setzeInfo("")
         }
     }

@@ -1,7 +1,10 @@
 <template>
   <header>
       <h1> Dönerverleih UdE</h1>
-      <h1> Katalog </h1>
+      <div v-if="loggedIn">
+          <RouterLink to="/doener"> Katalog </RouterLink>
+      </div>
+      <RouterLink to="/login"> Login </RouterLink>
   </header>
 
   <div v-if="info" class="info-box">
@@ -14,7 +17,7 @@
       <span>{{ info }}</span>
     </div>
   </div>
-  <DoenerListeView/>
+  <RouterView/>
   <footer>
     <div v-if="loggedIn">
       <p>{{ username }}</p>
@@ -26,14 +29,33 @@
 
 <script setup lang="ts">
   import { useInfo } from '@/composables/useInfo'
-  import DoenerListeView from "./views/DoenerListeView.vue";
+  import { RouterView } from 'vue-router';
   import { storeToRefs } from 'pinia';
   import { useLoginStore } from './stores/loginstore';
+  import { onMounted, watch } from 'vue';
+  import { useRouter } from 'vue-router';
 
   const { info, loecheInfo, setzeInfo} = useInfo()
-  setzeInfo("Willkommen, Döner-Community!")
 
   const loginStore = useLoginStore()
   const {username, loggedIn } = storeToRefs(loginStore)
+
+  const router = useRouter()
+
+  onMounted(() => {
+    if(router.currentRoute.value.path === '/doener'){
+      setzeInfo("Willkommen, Döner-Community!")
+    }else if(router.currentRoute.value.path === '/login'){
+      loecheInfo()
+    }
+  })
+
+  watch(() => router.currentRoute.value.path, (neuerPfad) =>{
+    if(neuerPfad === '/doener'){
+      setzeInfo("Willkommen, Döner-Community!")
+    }else{
+      loecheInfo()
+    }
+  })
 
 </script>

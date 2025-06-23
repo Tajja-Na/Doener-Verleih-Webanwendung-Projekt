@@ -27,9 +27,13 @@ footer {
     font-size: 16px;
     text-align: right;
     margin-top: 40px;
-    position: sticky;
+    position: fixed;
     bottom:0;
     width:100%;
+}
+
+footer p{
+  margin-right: 5%;
 }
 
 .main-main{
@@ -133,3 +137,25 @@ footer {
     padding: 10px 12px;
     border-bottom: 1px solid;
   }
+
+  .login{
+    flex-direction: column;
+    margin: 5%;
+  }
+
+  .login input{
+    width:80%;
+    margin-bottom: 2%;
+  }
+
+  .login button{
+    align-self: left;
+    margin-left: 2%;
+  }
+
+  .login h1{
+    color: black;
+    align-content: left;
+  }
+
+  
