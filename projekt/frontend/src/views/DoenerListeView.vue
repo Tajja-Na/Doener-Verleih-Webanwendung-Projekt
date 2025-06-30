@@ -16,7 +16,7 @@
     </div>
 
     <div class="main">
-      <DoenerListe :doener="liste"></DoenerListe>
+      <DoenerListe :doener="gefiltereteListe"></DoenerListe>
     </div>
   </div>
 </template>
@@ -28,34 +28,29 @@
   import { storeToRefs } from 'pinia'
   import DoenerListe from '@/components/doener/DoenerListe.vue'
   import { useDoenerStore } from '@/stores/doenerstore';
-  import { onMounted, ref, watch } from 'vue';
+  import { computed, onMounted, ref, watch } from 'vue';
   import type { IDoenerDTD } from '@/stores/IDoener';
 
   const doenerStore = useDoenerStore()
-  const { updateDoenerListe } = doenerStore
+  const { updateDoenerListe, startDoenerLiveUpdate } = doenerStore
   const { ok, doenerliste } = storeToRefs(doenerStore)
-
-  const liste = ref<IDoenerDTD[]>([])
 
   const begriff = ref("")
 
   onMounted( () => {
-    updateDoenerListe()  //Beachten Sie bitte, dass die Dönerliste im Store erst gefüllt wird, wenn jemand updateDoenerListe() aufruft
-    liste.value = doenerliste.value
+      updateDoenerListe()
+      startDoenerLiveUpdate();
   });
 
-  watch(begriff, (neuerBegriff) => {
-    if(neuerBegriff == ""){
-      liste.value = doenerliste.value
-    }else{
-      suche(begriff.value)
-    }
-  })
-
-  function suche(begriff: string){
-    liste.value = doenerliste.value.filter(ele => 
-      ele.bezeichnung.toLowerCase().includes(begriff.toLowerCase()) || 
-      ele.zutaten.some(z => z.name.toLowerCase().includes(begriff.toLowerCase())))
+ const gefiltereteListe = computed(() => {
+  if(begriff.value === ""){
+    return doenerliste.value
   }
+
+  return doenerliste.value.filter(ele => 
+    ele.bezeichnung.toLowerCase().includes(begriff.value.toLowerCase()) || 
+    ele.zutaten.some(z => z.name.toLowerCase().includes(begriff.value.toLowerCase()))
+  )
+})
     
 </script>

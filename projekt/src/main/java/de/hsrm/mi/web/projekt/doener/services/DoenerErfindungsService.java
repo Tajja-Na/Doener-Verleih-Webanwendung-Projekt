@@ -17,9 +17,9 @@ import de.hsrm.mi.web.projekt.entities.zutat.ZutatRepository;
 @Service
 public class DoenerErfindungsService {
     @Autowired
-    private ZutatRepository zr;
+    private ZutatenService zs;
     @Autowired
-    private DoenerRepository dr;
+    private DoenerService ds;
 
     @Autowired
     private DoenerNamingService dns;
@@ -29,7 +29,7 @@ public class DoenerErfindungsService {
     public Doener neuenDoenerErfinden(){
         //Zutaten random auswählen
         //mind. 1 Zutat und max. 25% der verfügbaren Zutaten
-        List<Zutat> alleZutaten = zr.findAll();
+        List<Zutat> alleZutaten = zs.findAllZutaten();
         int maxZutat = Math.max(1, alleZutaten.size() / 4);   // durch 4 für 25% aller Zutaten - es soll trotzdem mind 1 sein
         int minZutat = 1;
 
@@ -62,12 +62,12 @@ public class DoenerErfindungsService {
         String name = dns.getName();
 
         Doener neuerDoener = new Doener();
-        neuerDoener.setZutaten(alleZutaten);
+        neuerDoener.setZutaten(auswahlZutat);
         neuerDoener.setVegetarizitaet(minVWert);
         neuerDoener.setPreis(preis);
         neuerDoener.setBestand(bestand);
         neuerDoener.setBezeichnung(name);
 
-        return dr.save(neuerDoener);
+        return ds.saveDoener(neuerDoener);
     }
 }

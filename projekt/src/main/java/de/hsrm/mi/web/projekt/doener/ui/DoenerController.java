@@ -61,7 +61,6 @@ public class DoenerController {
             @ModelAttribute("dformular") DoenerFormular form,
             Locale locale,
             Model m) { 
-        
         if(id == 0){  //sollte die id 0 sein, wird damit signalisiert das ein neuer Döner angelegt werden soll
             form = new DoenerFormular();
             //form.setId(id);  <- das nicht weil die id wird automatisch generiert
@@ -71,9 +70,9 @@ public class DoenerController {
             form.setVersion(doener.get().getVersion());
         }
 
-        List<Zutat> alleZutaten = zs.findAllZutaten();
+        List<Zutat> zutaten  = zs.findAllZutaten();
     
-        m.addAttribute("zutaten", alleZutaten);
+        m.addAttribute("zutaten", zutaten);
         m.addAttribute("locale", locale);
         m.addAttribute("sprache", locale.getDisplayLanguage());
         m.addAttribute("id", id);
@@ -84,7 +83,6 @@ public class DoenerController {
     @PostMapping("/{id}")
     public String neuenDoenerErstellen_post(
             @PathVariable("id") long id,
-            @RequestParam("zutaten") List<String> zutatenEan,
             @Valid @ModelAttribute("dformular") DoenerFormular form,
             BindingResult result,
             Model m) {
@@ -93,28 +91,8 @@ public class DoenerController {
 
          try{
             if(!result.hasErrors()){
-                /* if(form.getBezeichnung().equals("")){
-                    if(doener.isEmpty()){
-                        throw new DoenerException("Es fehlt eine Bezeichnung!");
-                    }else{
-                        form.setBezeichnung(doener.get().getBezeichnung());
-                    }
-                } ich glaub das macht nicht mal Sinn, weil bezeichnung die annotation notblank hat, bei einem fehler geht er eh nicht hier rein
-                maybe einfach ins else packen? aber dann sind da 2 fehlermeldungen, is ja auch schwachsinn*/
-                
                 Doener neuerDoener = mapper.doenerFormularToDoener(form);
                 neuerDoener.setId(id);
-
-                List<Zutat> alleZutaten = new ArrayList<>(zs.findAllZutaten());
-                List<Zutat> ausgewählteZutaten = new ArrayList<>();
-
-                for(Zutat z : alleZutaten){
-                    if(zutatenEan.contains(z.getEan())){
-                        ausgewählteZutaten.add(z);
-                    }
-                }
-
-                neuerDoener.setZutaten(ausgewählteZutaten);
 
                 if(doener.isPresent()){
                     long alteVersion = form.getVersion();

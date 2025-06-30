@@ -1,133 +1,79 @@
 import { defineStore } from "pinia";
-import { computed, reactive } from "vue";
+import { computed, onMounted, reactive } from "vue";
 import type { IDoenerDTD } from './IDoener'
+import { useInfo } from "@/composables/useInfo";
+import { Client } from "@stomp/stompjs";
+import type { IFrontendNachrichtEvent } from "@/services/IFrontendNachrichtEvent";
 
 export const useDoenerStore = defineStore("doenerstore", () => {
     const doenerdata = reactive<{ok:boolean; doenerliste:IDoenerDTD[]}>
                                 ({ok:false, doenerliste:[]})
 
-    function updateDoenerListe(){
-        doenerdata.doenerliste = JSON.parse(`
-        [
-            {
-            "id": 2802,
-            "bezeichnung": "Bronzongdön",
-            "preis": 13,
-            "vegetarizitaet": 0,
-            "zutaten": [
-                {
-                "ean": "1101049047855",
-                "name": "Eisbergsalat",
-                "vegetarizitaet": 2
-                },
-                {
-                "ean": "4474445326792",
-                "name": "Fladenbrot",
-                "vegetarizitaet": 1
-                },
-                {
-                "ean": "7806470514874",
-                "name": "Kalbsschnipsel",
-                "vegetarizitaet": 0
-                },
-                {
-                "ean": "3398697207454",
-                "name": "Knoblauch",
-                "vegetarizitaet": 2
-                }
-            ]
-            },
-            {
-            "id": 2,
-            "bezeichnung": "Fleischdön",
-            "preis": 5,
-            "vegetarizitaet": 0,
-            "zutaten": [
-                {
-                "ean": "4474445326792",
-                "name": "Fladenbrot",
-                "vegetarizitaet": 1
-                },
-                {
-                "ean": "8645075438735",
-                "name": "Frikadelle",
-                "vegetarizitaet": 0
-                },
-                {
-                "ean": "7806470514874",
-                "name": "Kalbsschnipsel",
-                "vegetarizitaet": 0
-                },
-                {
-                "ean": "8709274658213",
-                "name": "Lamm da",
-                "vegetarizitaet": 0
-                },
-                {
-                "ean": "7103802900732",
-                "name": "Putenschnipsel",
-                "vegetarizitaet": 0
-                }
-            ]
-            },
-            {
-            "id": 1,
-            "bezeichnung": "Gesundöner",
-            "preis": 10,
-            "vegetarizitaet": 2,
-            "zutaten": [
-                {
-                "ean": "1101049047855",
-                "name": "Eisbergsalat",
-                "vegetarizitaet": 2
-                },
-                {
-                "ean": "1715334440614",
-                "name": "Grapefruit",
-                "vegetarizitaet": 2
-                },
-                {
-                "ean": "5013842346499",
-                "name": "Gurke",
-                "vegetarizitaet": 2
-                }
-            ]
-            },
-            {
-            "id": 2803,
-            "bezeichnung": "Wiglettdön",
-            "preis": 17,
-            "vegetarizitaet": 0,
-            "zutaten": [
-                {
-                "ean": "8645075438735",
-                "name": "Frikadelle",
-                "vegetarizitaet": 0
-                },
-                {
-                "ean": "1715334440614",
-                "name": "Grapefruit",
-                "vegetarizitaet": 2
-                },
-                {
-                "ean": "9150715186721",
-                "name": "Rösti",
-                "vegetarizitaet": 1
-                },
-                {
-                "ean": "7763273447981",
-                "name": "Weißkohl",
-                "vegetarizitaet": 2
-                }
-            ]
+    const { info, loecheInfo, setzeInfo} = useInfo()
+    const wsurl = `ws://${window.location.host}/stompbroker`;
+    const DEST = "/topic/doener";
+    let stompclient: Client | null = null;
+
+    async function updateDoenerListe(){
+        try{
+            const response = await fetch('/api/doener')
+            if(!response.ok){
+                setzeInfo(response.statusText)
+                throw new Error(response.statusText)
+            }else{
+                const data = await response.json()
+                doenerdata.doenerliste = data;
+                doenerdata.ok = true;
             }
-        ]
-        `)
-        doenerdata.ok = true
+        }catch (error:any){
+            doenerdata.doenerliste = [];
+            doenerdata.ok = false;
+        }
     }
+
+    function startDoenerLiveUpdate(){
+        if(stompclient && stompclient.connected){
+            return;
+        }
+
+        if(stompclient == null){
+            stompclient = new Client({brokerURL:wsurl})
+            console.log("hab client erstellt")
+        }   
+
+        stompclient.onWebSocketError = (event) => { 
+            console.log("fehler: ", JSON.stringify(event))
+        }
+
+        stompclient.onStompError = (event) => { 
+            console.log("fehler: ", JSON.stringify(event))
+        }
+
+        stompclient.onConnect = (frame) => {
+            stompclient?.subscribe(DEST, (message) => {
+                try{
+                    console.log("erfolg: ", JSON.stringify(frame))
+                    const eventObj: IFrontendNachrichtEvent = JSON.parse(message.body);
+                    console.log("Empfangenes FrontendNachrichtEvent: ", JSON.stringify(eventObj))
+
+                    if(eventObj.typ === "DOENER"){
+                        updateDoenerListe();
+                        console.log("update")
+                    }
+                }catch(e){
+                    setzeInfo("Fehler beim Verarbeiten der Nachricht: " + e)
+                }
+            })
+        }
+
+        stompclient.activate();
+        
+    }
+
     return {
         ok :computed(() => doenerdata.ok),
         doenerliste :computed(() => doenerdata.doenerliste),
-        updateDoenerListe
+        updateDoenerListe,
+        startDoenerLiveUpdate
     }
 })

@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -15,17 +16,24 @@ import de.hsrm.mi.web.projekt.entities.doener.Doener;
 import de.hsrm.mi.web.projekt.entities.doener.DoenerRepository;
 import de.hsrm.mi.web.projekt.entities.zutat.Zutat;
 import de.hsrm.mi.web.projekt.entities.zutat.ZutatRepository;
+import de.hsrm.mi.web.projekt.messaging.FrontendNachrichtEvent;
+import de.hsrm.mi.web.projekt.messaging.FrontendNachrichtService;
+import de.hsrm.mi.web.projekt.messaging.FrontendNachrichtServiceImpl;
+import de.hsrm.mi.web.projekt.messaging.NachrichtenTyp;
+import de.hsrm.mi.web.projekt.messaging.Operation;
 
 @Service
 public class DoenerServiceImpl implements DoenerService{
     private DoenerRepository dr;
     private ZutatRepository zr;
     private Logger logger = LoggerFactory.getLogger(DoenerServiceImpl.class);
+    private FrontendNachrichtService fs;
 
     @Autowired
-    public DoenerServiceImpl(DoenerRepository dr, ZutatRepository zr){
+    public DoenerServiceImpl(DoenerRepository dr, ZutatRepository zr, FrontendNachrichtService fs){
         this.dr = dr;
         this.zr = zr;
+        this.fs = fs;
     }
 
     @Override
@@ -44,7 +52,16 @@ public class DoenerServiceImpl implements DoenerService{
             }
             doener.setVegetarizitaet(minVWert);
         }
-        return dr.save(doener);
+
+        boolean istneu = (!dr.existsById(doener.getId()));
+
+        Doener neuerDoener = dr.save(doener);
+        FrontendNachrichtEvent nachricht = new FrontendNachrichtEvent(
+            NachrichtenTyp.DOENER, neuerDoener.getId(), istneu ? Operation.CREATE : Operation.UPDATE);
+        fs.sendEvent(nachricht);
+        logger.info("die nachricht: {} {} {}", nachricht.getOperation(), nachricht.getId(), nachricht.getTyp());
+
+        return neuerDoener;
     }
 
     @Override
@@ -60,5 +77,9 @@ public class DoenerServiceImpl implements DoenerService{
     @Override
     public void deleteDoenerById(long id) {
         dr.deleteById(id);
+
+        fs.sendEvent(new FrontendNachrichtEvent(
+            NachrichtenTyp.DOENER, id, Operation.DELETE
+        ));
     }
 }
