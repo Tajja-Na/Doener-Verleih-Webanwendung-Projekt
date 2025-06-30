@@ -29,7 +29,6 @@
   import DoenerListe from '@/components/doener/DoenerListe.vue'
   import { useDoenerStore } from '@/stores/doenerstore';
   import { computed, onMounted, ref, watch } from 'vue';
-  import type { IDoenerDTD } from '@/stores/IDoener';
 
   const doenerStore = useDoenerStore()
   const { updateDoenerListe, startDoenerLiveUpdate } = doenerStore

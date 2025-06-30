@@ -55,12 +55,18 @@ public class DoenerServiceImpl implements DoenerService{
 
         boolean istneu = (!dr.existsById(doener.getId()));
 
+        /* try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } */
+
         Doener neuerDoener = dr.save(doener);
         FrontendNachrichtEvent nachricht = new FrontendNachrichtEvent(
             NachrichtenTyp.DOENER, neuerDoener.getId(), istneu ? Operation.CREATE : Operation.UPDATE);
         fs.sendEvent(nachricht);
         logger.info("die nachricht: {} {} {}", nachricht.getOperation(), nachricht.getId(), nachricht.getTyp());
-
         return neuerDoener;
     }
 
