@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.hsrm.mi.web.projekt.entities.doener.Doener;
 import de.hsrm.mi.web.projekt.entities.doener.DoenerRepository;
@@ -28,15 +29,18 @@ public class DoenerServiceImpl implements DoenerService{
     private ZutatRepository zr;
     private Logger logger = LoggerFactory.getLogger(DoenerServiceImpl.class);
     private FrontendNachrichtService fs;
+    private ApplicationEventPublisher publisher;
 
     @Autowired
-    public DoenerServiceImpl(DoenerRepository dr, ZutatRepository zr, FrontendNachrichtService fs){
+    public DoenerServiceImpl(DoenerRepository dr, ZutatRepository zr, FrontendNachrichtService fs, ApplicationEventPublisher publisher){
         this.dr = dr;
         this.zr = zr;
         this.fs = fs;
+        this.publisher = publisher;
     }
 
     @Override
+    @Transactional
     public Doener saveDoener(Doener doener) {
         List<Zutat> zutaten = doener.getZutaten();
         
@@ -65,7 +69,8 @@ public class DoenerServiceImpl implements DoenerService{
         Doener neuerDoener = dr.save(doener);
         FrontendNachrichtEvent nachricht = new FrontendNachrichtEvent(
             NachrichtenTyp.DOENER, neuerDoener.getId(), istneu ? Operation.CREATE : Operation.UPDATE);
-        fs.sendEvent(nachricht);
+        // fs.sendEvent(nachricht);
+        publisher.publishEvent(nachricht);
         logger.info("die nachricht: {} {} {}", nachricht.getOperation(), nachricht.getId(), nachricht.getTyp());
         return neuerDoener;
     }
@@ -81,6 +86,7 @@ public class DoenerServiceImpl implements DoenerService{
     }
 
     @Override
+    @Transactional
     public void deleteDoenerById(long id) {
         dr.deleteById(id);
 
