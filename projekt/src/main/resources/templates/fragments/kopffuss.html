@@ -4,7 +4,9 @@
     <body>
         <header th:fragment="kopf">
             <h1 th:text="#{kopf.titel}">Dönerverleih UdE</h1>
-            <a th:href="@{/benutzer}" th:text="#{kopf.benutzer}"> Benutzer </a>
+            <span sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/benutzer}" th:text="#{kopf.benutzer}"> Benutzer </a>
+            </span>
             <a th:href="@{/doener}" th:text="#{kopf.doener}"> Doener </a>
 
             <div class="languages">
@@ -12,9 +14,12 @@
                 <a th:href="@{?sprache=en}"> EN </a>
                 <a th:href="@{?sprache=nl}"> NL </a>
             </div>
+
+            <a th:href="@{/logout}"> Logout </a>
         </header>
         <footer th:fragment="fuss">
-
+            <p sec:authentication="name"></p>
+            <p sec:authentication="principal.authorities"></p>
         </footer>
     </body>
 </html>

@@ -1,11 +1,16 @@
 package de.hsrm.mi.web.projekt.entities.benutzer;
 
+import java.util.List;
+
 import de.hsrm.mi.web.projekt.benutzer.ui.BenutzerFormular;
+import de.hsrm.mi.web.projekt.entities.doener.Doener;
 import de.hsrm.mi.web.projekt.validators.GeeigneteLosung;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Version;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -30,9 +35,11 @@ public class Benutzer {
     @Email 
     private String email = "";
 
-    @NotNull 
-    @GeeigneteLosung (message="{benutzer.fehler.geeignetelosung}")
+    @NotBlank
     private String losung = "";
+    
+    @ManyToMany
+    private List<Doener> entlieheneDoener;
 
     public int getVegetarizitaet() {
         return vegetarizitaet;
@@ -75,6 +82,12 @@ public class Benutzer {
     }
     public void setVersion(long version) {
         this.version = version;
+    }
+    public List<Doener> getEntlieheneDoener() {
+        return entlieheneDoener;
+    }
+    public void setEntlieheneDoener(List<Doener> entlieheneDoener) {
+        this.entlieheneDoener = entlieheneDoener;
     }
 
     @Override

@@ -43,6 +43,17 @@ public class Doener {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Zutat> zutaten;
 
+    private int entliehen = 0;
+
+    public int getEntliehen() {
+        return entliehen;
+    }
+    public void setEntliehen(int entliehen) {
+        this.entliehen = entliehen;
+    }
+    public int getVerfuegbar(){
+        return bestand-entliehen;
+    }
     public long getId() {
         return id;
     }

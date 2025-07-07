@@ -5,6 +5,7 @@
                 <th>ID</th>
                 <th>Bezeichnung</th>
                 <th>Preis</th>
+                <th>Verfügbarkeit</th>
                 <th>Vegetarizitaet</th>
                 <th></th>
             </tr>

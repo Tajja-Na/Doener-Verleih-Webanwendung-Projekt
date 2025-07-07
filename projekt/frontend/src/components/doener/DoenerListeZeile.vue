@@ -3,6 +3,7 @@
             <td>{{ props.doener.id }}</td>
             <td>{{ props.doener.bezeichnung }}</td>
             <td>{{ props.doener.preis }}</td>
+            <td>{{ props.doener.verfuegbarkeit }}</td>
             <td>{{ vegetarizitaet }}</td>
             <td><button @click="zeigeZutaten = !zeigeZutaten">?</button></td>
         </tr>

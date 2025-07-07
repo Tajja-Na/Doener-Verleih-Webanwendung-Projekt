@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,11 +43,13 @@ public class BenutzerController {
     private Logger logger = LoggerFactory.getLogger(BenutzerController.class);
     private BenutzerService bs;
     private BenutzerMapper mapper;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public BenutzerController(BenutzerService bs, BenutzerMapper mapper) {
+    public BenutzerController(BenutzerService bs, BenutzerMapper mapper, PasswordEncoder passwordEncoder) {
         this.bs = bs;
         this.mapper = mapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @ModelAttribute("formular")
@@ -156,16 +159,16 @@ public class BenutzerController {
 
         try {
             if (!result.hasErrors()) {
-                if (form.getLosung().equals("")) {
-                    if (b.isEmpty()) {
-                        throw new BenutzerException("Es fehlt eine Losung!");
-                    } else {
-                        form.setLosung(b.get().getLosung());
-                    }
-                }
-
                 Benutzer neuerBenutzer = mapper.benutzerFormularToBenutzer(form);
                 neuerBenutzer.setLoginName(benutzer);
+
+                if (!form.getLosung().isBlank()) {
+                    neuerBenutzer.setLosung(passwordEncoder.encode(form.getLosung()));
+                } else if (b.isPresent()){
+                    b.get().setLosung(passwordEncoder.encode(b.get().getLosung()));
+                }else{
+                    throw new BenutzerException("Es fehlt eine Losung!");
+                }
 
                 //hier muss nochmal geprüft werden ob der benutzer bereits in der db ist oder nicht, wenn er ncoh nciht drinne is 
                 //is b empty, wodurch eine fehlermeldung beim speichern eines neuen benutzers entsteht
