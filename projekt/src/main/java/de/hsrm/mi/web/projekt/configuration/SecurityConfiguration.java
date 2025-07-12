@@ -31,7 +31,8 @@ public class SecurityConfiguration {
         .logout(out -> out.logoutSuccessUrl("/login"))
         .csrf(csrf -> csrf
             .ignoringRequestMatchers(toH2Console())
-            .ignoringRequestMatchers("/benutzer/*/hx/feld/*"))
+            .ignoringRequestMatchers("/benutzer/*/hx/feld/*")
+            .ignoringRequestMatchers("/api/**"))
         .headers(hdrs -> hdrs.frameOptions(fo -> fo.sameOrigin()))
         .build();
     }

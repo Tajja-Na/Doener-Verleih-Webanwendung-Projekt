@@ -19,7 +19,7 @@
 <script setup lang="ts">
     import type { IDoenerDTD } from '@/stores/IDoener';
     import DoenerListeZeile from './DoenerListeZeile.vue';
-    
+
     const props = defineProps<{
         doener : IDoenerDTD[]
     }>()

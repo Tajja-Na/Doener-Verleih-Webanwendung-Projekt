@@ -1,10 +1,11 @@
 <template>
   <header>
       <h1> Dönerverleih UdE</h1>
-      <div v-if="loggedIn">
-          <RouterLink to="/doener"> Katalog </RouterLink>
+      <div class="links">
+          <RouterLink to="/doener" v-if="loggedIn"> Katalog </RouterLink>
+          <RouterLink to="/entleihung"> Deine Döner </RouterLink>
+          <RouterLink to="/login" @click= logout> Login </RouterLink>
       </div>
-      <RouterLink to="/login"> Login </RouterLink>
   </header>
 
   <div v-if="info" class="info-box">
@@ -37,6 +38,7 @@
 
   const { info, loecheInfo, setzeInfo} = useInfo()
 
+  const { logout } = useLoginStore()
   const loginStore = useLoginStore()
   const {username, loggedIn } = storeToRefs(loginStore)
 

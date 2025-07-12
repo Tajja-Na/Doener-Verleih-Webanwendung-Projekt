@@ -3,9 +3,12 @@
             <td>{{ props.doener.id }}</td>
             <td>{{ props.doener.bezeichnung }}</td>
             <td>{{ props.doener.preis }}</td>
-            <td>{{ props.doener.verfuegbarkeit }}</td>
+            <td>{{ props.doener.verfuegbar }}</td>
             <td>{{ vegetarizitaet }}</td>
-            <td><button @click="zeigeZutaten = !zeigeZutaten">?</button></td>
+            <td class="buttons">
+                <button @click="zeigeZutaten = !zeigeZutaten">?</button>
+                <button @click="leihen(props.doener.id, username)">leihen</button>
+            </td>
         </tr>
         <tr v-if="zeigeZutaten" v-for="zutat in doener.zutaten" :key="zutat.ean">
             <td class="zutaten"><img :src="`/images/zutaten/${zutat.ean}.png`"/></td>
@@ -21,6 +24,12 @@
 <script setup lang="ts">
     import type { IDoenerDTD } from "@/stores/IDoener";
     import {ref} from "vue"
+    import { useDoenerStore } from "@/stores/doenerstore";
+    import { useLoginStore } from '@/stores/loginstore';
+    
+    const {username} = useLoginStore()
+
+    const {leihen} = useDoenerStore()
 
     const props = defineProps<{
         doener: IDoenerDTD 
@@ -47,4 +56,8 @@
     .zutaten{
         border-bottom: 0px;
     }
+    .buttons{
+        display: flex;
+        gap: 0.8rem;
+    } 
 </style>

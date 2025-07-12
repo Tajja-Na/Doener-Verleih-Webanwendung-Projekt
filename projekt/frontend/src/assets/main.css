@@ -1,13 +1,14 @@
  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #b6aaff;
-    color: white;
-    padding: 20px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #b6aaff;
+  color: white;
+  padding: 20px;
 }
 
 header a, h1{
+    margin: 0;
     font-size: 25px;
     color: white;
     padding: 8px 12px;
@@ -158,4 +159,13 @@ footer p{
     align-content: left;
   }
 
+  .buttons{
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .links{
+    display: flex;
+    gap: 20px;
+  }
   

@@ -4,7 +4,7 @@ import type { IZutatDTD } from "./IZutatDTD"
     id: number
     bezeichnung: string
     preis: number
-    verfuegbarkeit: number;
+    verfuegbar: number;
     vegetarizitaet: number
     zutaten: Array<IZutatDTD>
   }

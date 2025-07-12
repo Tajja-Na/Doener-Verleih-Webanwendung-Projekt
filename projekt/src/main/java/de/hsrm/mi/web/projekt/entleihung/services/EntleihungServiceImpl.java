@@ -64,6 +64,7 @@ public class EntleihungServiceImpl implements EntleihungService {
         publisher.publishEvent(new FrontendNachrichtEvent(NachrichtenTyp.DOENER, doenerId, Operation.RETURNED));
     }
 
+    @Transactional
     @Override
     public List<Doener> findeEntleihungenVonBenutzer(String loginName) {
         Benutzer benutzer = bs.findBenutzerById(loginName).orElseThrow(() -> 

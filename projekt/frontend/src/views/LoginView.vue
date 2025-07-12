@@ -25,14 +25,10 @@
     const losung = ref("")
 
     const loginStore = useLoginStore()
-    const { login, logout } = loginStore
+    const { login } = loginStore
     const { loggedIn } = storeToRefs(loginStore)
     
     const router = useRouter()
-
-    onMounted( () => {
-        logout()
-    });
 
     function einloggen(usernameEingabe:string, losungEingabe:string){
         login(usernameEingabe, losungEingabe)
