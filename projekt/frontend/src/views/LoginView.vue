@@ -30,8 +30,8 @@
     
     const router = useRouter()
 
-    function einloggen(usernameEingabe:string, losungEingabe:string){
-        login(usernameEingabe, losungEingabe)
+    async function einloggen(usernameEingabe:string, losungEingabe:string){
+        await login(usernameEingabe, losungEingabe)
 
         if(!loggedIn.value){
             losung.value = ""

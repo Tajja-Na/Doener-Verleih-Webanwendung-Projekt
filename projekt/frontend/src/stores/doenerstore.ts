@@ -13,7 +13,7 @@ export const useDoenerStore = defineStore("doenerstore", () => {
 
     const { info, loecheInfo, setzeInfo} = useInfo()
     const loginStore = useLoginStore()
-    const { username } = storeToRefs(loginStore)
+    const { username, jwt } = storeToRefs(loginStore)
 
     const wsurl = `ws://${window.location.host}/stompbroker`;
     const DEST = "/topic/doener";
@@ -21,7 +21,11 @@ export const useDoenerStore = defineStore("doenerstore", () => {
 
     async function updateDoenerListe(){
         try{
-            const response = await fetch('/api/doener')
+            const response = await fetch('/api/doener',{
+                headers: {
+                    'Authorization': 'Bearer ' + jwt.value
+                },
+            })
             if(!response.ok){
                 setzeInfo(response.statusText)
                 throw new Error(response.statusText)
@@ -38,7 +42,11 @@ export const useDoenerStore = defineStore("doenerstore", () => {
 
     async function updateEntlieheneDoenerListe(loginName:string){
         try{
-            const response = await fetch('/api/'+loginName)
+            const response = await fetch('/api/'+loginName,{
+                headers: {
+                    'Authorization': 'Bearer ' + jwt.value
+                },
+            })
             if(!response.ok){
                 setzeInfo(response.statusText)
                 throw new Error(response.statusText)
@@ -58,7 +66,8 @@ export const useDoenerStore = defineStore("doenerstore", () => {
             const response = await fetch('/api/entleihung',{
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + jwt.value
                 },
                 body: JSON.stringify({doenerId, loginName})
             });
@@ -76,7 +85,10 @@ export const useDoenerStore = defineStore("doenerstore", () => {
     async function zurueckgeben(loginName:string, doenerId:number){
         try{
             const response = await fetch('/api/'+loginName+'/' +doenerId,{
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + jwt.value
+                }
             });
             if(!response.ok){
                 setzeInfo(response.statusText)
